@@ -373,10 +373,12 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
         this._form.deregister(this);
     }
 
-    convertColumnsToNumbers(columns: Array<{ value: number, text: string }>): number {
+    convertColumnsToNumbers(columns: any): number {
+
         let result = 0;
-        for (var index = 0; index < columns.length; index++) {
-            var element = columns[index];
+        let keys = Object.keys(columns);
+        for (var index = 0; index < keys.length; index++) {
+            var element = columns[keys[index]];
             result += element.value * Math.pow(10, index);
         }
         return result;

@@ -281,8 +281,9 @@ export var Numeric = (function (_super) {
     };
     Numeric.prototype.convertColumnsToNumbers = function (columns) {
         var result = 0;
-        for (var index = 0; index < columns.length; index++) {
-            var element = columns[index];
+        var keys = Object.keys(columns);
+        for (var index = 0; index < keys.length; index++) {
+            var element = columns[keys[index]];
             result += element.value * Math.pow(10, index);
         }
         return result;
