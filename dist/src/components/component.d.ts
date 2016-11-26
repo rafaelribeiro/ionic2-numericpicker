@@ -1,6 +1,7 @@
 import { EventEmitter, ElementRef, Renderer, AfterContentInit } from '@angular/core';
 import { Form, Config, Item, PickerController, Picker, Ion } from 'ionic-angular';
 import { ControlValueAccessor } from '@angular/forms';
+export declare const NUMERIC_VALUE_ACCESSOR: any;
 export declare class Numeric extends Ion implements AfterContentInit, ControlValueAccessor {
     private _form;
     private _item;

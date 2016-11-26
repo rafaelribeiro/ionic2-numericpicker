@@ -3,10 +3,16 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-import { Component, Input, Output, EventEmitter, HostListener, ViewEncapsulation, Optional, ElementRef, Renderer } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, forwardRef, ViewEncapsulation, Optional, ElementRef, Renderer } from '@angular/core';
 import { Form, Config, Item, PickerController, Ion } from 'ionic-angular';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { merge, isArray, isString, isPresent, isTrueProperty } from 'ionic-angular/util/util';
 import { parseTemplate, numberValueRange, getValueFromFormat } from '../providers/util';
+export var NUMERIC_VALUE_ACCESSOR = {
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(function () { return Numeric; }),
+    multi: true
+};
 export var Numeric = (function (_super) {
     __extends(Numeric, _super);
     function Numeric(_form, config, elementRef, renderer, _item, _pickerCtrl) {
@@ -303,6 +309,7 @@ export var Numeric = (function (_super) {
                     host: {
                         '[class.numeric-disabled]': '_disabled'
                     },
+                    providers: [NUMERIC_VALUE_ACCESSOR],
                     encapsulation: ViewEncapsulation.None,
                 },] },
     ];

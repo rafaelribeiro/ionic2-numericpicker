@@ -1,9 +1,14 @@
-import { Component, OnInit, Input, Output, EventEmitter, HostListener, ViewEncapsulation, Optional, ElementRef, Renderer, AfterContentInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, HostListener, forwardRef, ViewEncapsulation, Optional, ElementRef, Renderer, AfterContentInit } from '@angular/core';
 import { Form, Config, Item, PickerController, Picker, Ion, PickerColumn, PickerColumnOption } from 'ionic-angular';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NumericData } from '../models/data';
 import { merge, isArray, isString, isPresent, isBlank, isTrueProperty } from 'ionic-angular/util/util';
 import { parseTemplate, numberValueRange, getValueFromFormat } from '../providers/util';
+export const NUMERIC_VALUE_ACCESSOR: any = {
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => Numeric),
+    multi: true
+};
 @Component({
     selector: 'ion-numeric',
     template:
@@ -19,6 +24,7 @@ import { parseTemplate, numberValueRange, getValueFromFormat } from '../provider
     host: {
         '[class.numeric-disabled]': '_disabled'
     },
+    providers: [NUMERIC_VALUE_ACCESSOR],
     encapsulation: ViewEncapsulation.None,
 })
 export class Numeric extends Ion implements AfterContentInit, ControlValueAccessor {
