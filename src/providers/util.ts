@@ -16,7 +16,7 @@ export function numberValueRange(pow: number, min: number, max: number): number[
 }
 
 export function getValueFromFormat(value: number, pow: number, decimal?: boolean) {
-    if(decimal === true) value = Math.round((value % 1) * Math.pow(10, pow));
+    if (decimal === true) value = Math.round((value % 1) * Math.pow(10, pow));
     return getNthDigit(value, pow);
 }
 
