@@ -286,6 +286,8 @@ export var Numeric = (function (_super) {
         this._form.deregister(this);
     };
     Numeric.prototype.convertColumnsToNumbers = function (columns) {
+        if (columns === null)
+            return 0;
         var result = 0;
         var keys = Object.keys(columns);
         for (var index = 0; index < keys.length; index++) {

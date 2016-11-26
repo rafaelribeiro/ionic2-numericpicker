@@ -380,7 +380,7 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
     }
 
     convertColumnsToNumbers(columns: any): number {
-
+        if (columns === null) return 0;
         let result = 0;
         let keys = Object.keys(columns);
         for (var index = 0; index < keys.length; index++) {
