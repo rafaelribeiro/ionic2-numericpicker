@@ -187,7 +187,7 @@ export var Numeric = (function (_super) {
      * @private
      */
     Numeric.prototype.setValue = function (newData) {
-        this._value = +newData;
+        this._value = this.convertColumnsToNumbers(newData);
     };
     /**
      * @private
@@ -278,6 +278,14 @@ export var Numeric = (function (_super) {
      */
     Numeric.prototype.ngOnDestroy = function () {
         this._form.deregister(this);
+    };
+    Numeric.prototype.convertColumnsToNumbers = function (columns) {
+        var result = 0;
+        for (var index = 0; index < columns.length; index++) {
+            var element = columns[index];
+            result += element.value * Math.pow(10, index);
+        }
+        return result;
     };
     Numeric.decorators = [
         { type: Component, args: [{

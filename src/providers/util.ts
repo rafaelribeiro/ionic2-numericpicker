@@ -29,4 +29,3 @@ function getNthDigit(val, n) {
     var modVal = val % Math.pow(10, n);//Remove all digits larger than nth
     return Math.floor(modVal / Math.pow(10, n - 1));//Remove all digits less than nth
 }
-

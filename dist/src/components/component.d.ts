@@ -132,4 +132,8 @@ export declare class Numeric extends Ion implements AfterContentInit, ControlVal
      * @private
      */
     ngOnDestroy(): void;
+    convertColumnsToNumbers(columns: Array<{
+        value: number;
+        text: string;
+    }>): number;
 }
