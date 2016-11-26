@@ -215,7 +215,7 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
                 if (column.options.length) {
                     // cool, we've loaded up the columns with options
                     // preselect the option for this column
-                    var selected = column.options.find(opt => opt.value === getValueFromFormat(this._value, index));
+                    var selected = column.options.find(opt => opt.value === getValueFromFormat(this._value, index + 1));
                     if (selected) {
                         // set the select index for this column's options
                         column.selectedIndex = column.options.indexOf(selected);
@@ -250,7 +250,7 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
                     if (column.options.length) {
                         // cool, we've loaded up the columns with options
                         // preselect the option for this column
-                        var selected = column.options.find(opt => opt.value === getValueFromFormat(this._value, index));
+                        var selected = column.options.find(opt => opt.value === getValueFromFormat(this._value, index + 1));
                         if (selected) {
                             // set the select index for this column's options
                             column.selectedIndex = column.options.indexOf(selected);

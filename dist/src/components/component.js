@@ -141,7 +141,7 @@ export var Numeric = (function (_super) {
                 if (column.options.length) {
                     // cool, we've loaded up the columns with options
                     // preselect the option for this column
-                    var selected = column.options.find(function (opt) { return opt.value === getValueFromFormat(_this._value, index); });
+                    var selected = column.options.find(function (opt) { return opt.value === getValueFromFormat(_this._value, index + 1); });
                     if (selected) {
                         // set the select index for this column's options
                         column.selectedIndex = column.options.indexOf(selected);
@@ -174,7 +174,7 @@ export var Numeric = (function (_super) {
                     if (column.options.length) {
                         // cool, we've loaded up the columns with options
                         // preselect the option for this column
-                        var selected = column.options.find(function (opt) { return opt.value === getValueFromFormat(_this._value, index); });
+                        var selected = column.options.find(function (opt) { return opt.value === getValueFromFormat(_this._value, index + 1); });
                         if (selected) {
                             // set the select index for this column's options
                             column.selectedIndex = column.options.indexOf(selected);
