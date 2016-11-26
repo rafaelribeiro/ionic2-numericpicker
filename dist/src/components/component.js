@@ -328,14 +328,15 @@ export var Numeric = (function (_super) {
             var element = keys.find(function (k) { return k.replace('int', '') === index.toString(); });
             if (!element)
                 break;
-            result += columns[element].value * Math.pow(10, index);
+            result = result * Math.pow(10, index);
+            result += columns[element].value;
         }
         if (keys.some(function (d) { return d === 'seperator'; })) {
             for (var index = 0; index < 10; index++) {
                 var element = keys.find(function (k) { return k.replace('dec', '') === index.toString(); });
                 if (!element)
                     break;
-                result += columns[element].value / Math.pow(10, index + 1);
+                result += Math.round(columns[element].value / Math.pow(10, index + 1));
             }
         }
         return result;

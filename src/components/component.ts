@@ -422,13 +422,14 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
         for (var index = 0; index < 10; index++) {
             let element = keys.find(k => k.replace('int', '') === index.toString())
             if (!element) break;
-            result += columns[element].value * Math.pow(10, index);
+            result = result * Math.pow(10, index);
+            result += columns[element].value;
         }
         if (keys.some(d => d === 'seperator')) {
             for (var index = 0; index < 10; index++) {
                 let element = keys.find(k => k.replace('dec', '') === index.toString())
                 if (!element) break;
-                result += columns[element].value / Math.pow(10, index + 1);
+                result += Math.round(columns[element].value / Math.pow(10, index + 1));
             }
         }
         return result;
