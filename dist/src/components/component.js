@@ -125,8 +125,8 @@ export var Numeric = (function (_super) {
         // to use the display format
         var template = this.pickerFormat || this.displayFormat || DEFAULT_FORMAT;
         if (isPresent(template)) {
-            var format = parseTemplate(template);
-            for (var index = 0; index < format.integers; index++) {
+            var format_1 = parseTemplate(template);
+            for (var index = 0; index < format_1.integers; index++) {
                 var values = void 0;
                 values = numberValueRange(index, this._min, this._max);
                 var column = {
@@ -141,7 +141,7 @@ export var Numeric = (function (_super) {
                 if (column.options.length) {
                     // cool, we've loaded up the columns with options
                     // preselect the option for this column
-                    var selected = column.options.find(function (opt) { return opt.value === getValueFromFormat(_this._value, index + 1); });
+                    var selected = column.options.find(function (opt) { return opt.value === getValueFromFormat(_this._value, format_1.decimals - index); });
                     if (selected) {
                         // set the select index for this column's options
                         column.selectedIndex = column.options.indexOf(selected);
@@ -150,7 +150,7 @@ export var Numeric = (function (_super) {
                     picker.addColumn(column);
                 }
             }
-            if (format.decimals) {
+            if (format_1.decimals) {
                 var seperator = {
                     name: 'seperator',
                     options: [{
@@ -159,7 +159,7 @@ export var Numeric = (function (_super) {
                         }]
                 };
                 picker.addColumn(seperator);
-                for (var index = 0; index < format.decimals; index++) {
+                for (var index = 0; index < format_1.decimals; index++) {
                     var values = void 0;
                     values = numberValueRange(index, this._min, this._max);
                     var column = {
@@ -174,7 +174,7 @@ export var Numeric = (function (_super) {
                     if (column.options.length) {
                         // cool, we've loaded up the columns with options
                         // preselect the option for this column
-                        var selected = column.options.find(function (opt) { return opt.value === getValueFromFormat(_this._value, index + 1); });
+                        var selected = column.options.find(function (opt) { return opt.value === getValueFromFormat(_this._value, format_1.decimals - index, true); });
                         if (selected) {
                             // set the select index for this column's options
                             column.selectedIndex = column.options.indexOf(selected);
