@@ -331,9 +331,8 @@ export var Numeric = (function (_super) {
             result += columns[element].value * Math.pow(10, index);
         }
         if (keys.some(function (d) { return d === 'seperator'; })) {
-            var indexOfDecimal = +keys.find(function (d) { return d === 'seperator'; });
             for (var index = 0; index < 10; index++) {
-                var element = keys.find(function (k) { return k.replace('int', '') === index.toString(); });
+                var element = keys.find(function (k) { return k.replace('dec', '') === index.toString(); });
                 if (!element)
                     break;
                 result += columns[element].value / Math.pow(10, index + 1);
