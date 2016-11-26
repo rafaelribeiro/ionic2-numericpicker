@@ -2,16 +2,13 @@ import { Observable } from 'rxjs';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { MyComponent } from './components/my-component';
-import { MyProvider } from './providers/my-provider';
 
 @NgModule({
   declarations: [
-    MyComponent
+
   ],
-  providers: [ MyProvider ],
+  providers: [],
   exports: [
-    MyComponent
   ],
   imports: [
     BrowserModule
@@ -20,4 +17,4 @@ import { MyProvider } from './providers/my-provider';
     CUSTOM_ELEMENTS_SCHEMA
   ]
 })
-export class MyModule {}
+export class NumericPickerModule { }
