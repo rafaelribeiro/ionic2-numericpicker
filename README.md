@@ -62,3 +62,34 @@ Default is displayFormat. Determines how it should be displayed in the pickerFor
 * disabled
 
  Whether or not the datetime component is disabled. Default false.
+
+ # Output Events
+
+* ionChange
+ 
+  Any expression to evaluate when the datetime selection has changed.
+
+* ionCancel
+
+ Any expression to evaluate when the datetime selection was cancelled.
+
+
+ # Sass Variables
+
+ For the sake of convience it uses the datetime classes.
+
+ * $datetime-ios-padding-top
+ 
+  Padding top of the component
+
+ * $datetime-ios-padding-right
+
+ Padding right of the component
+
+ * $datetime-ios-padding-bottom
+
+ Padding bottom of the DateTime component
+
+ * $datetime-ios-padding-left
+
+ Padding left of the DateTime component
