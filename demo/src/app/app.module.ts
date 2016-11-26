@@ -2,7 +2,7 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { NumericModule } from 'ionic2-numericpicker/dist/src';
+import { NumericModule } from 'ionic2-numericpicker/dist';
 @NgModule({
   declarations: [
     MyApp,

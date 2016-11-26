@@ -1,12 +1,12 @@
 {
   "name": "ionic2-numericpicker",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Component for picking numbers in ionic2",
   "main": "index.js",
   "typings": "index.d.ts",
   "scripts": {
     "ngc": "ngc",
-    "build": "del aot dist && npm run ngc && node ./scripts/copy-package",
+    "build": "del aot dist && npm run ngc && node ./scripts/copy-package && npm run copy_package && copy README.md dist && copy LICENSE dist",
     "publishPackage": "npm run build && cd dist && npm publish"
   },
   "repository": {
