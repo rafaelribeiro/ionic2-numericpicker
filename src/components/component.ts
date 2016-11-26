@@ -203,7 +203,7 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
                 let values: any[];
                 values = numberValueRange(index, this._min, this._max);
                 let column: PickerColumn = {
-                    name: index.toString(),
+                    name: 'int' + index.toString(),
                     options: values.map(val => {
                         return {
                             value: val,
@@ -238,7 +238,7 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
                     let values: any[];
                     values = numberValueRange(index, this._min, this._max);
                     let column: PickerColumn = {
-                        name: index.toString(),
+                        name: 'dec' + index.toString(),
                         options: values.map(val => {
                             return {
                                 value: val,

@@ -130,7 +130,7 @@ export var Numeric = (function (_super) {
                 var values = void 0;
                 values = numberValueRange(index, this._min, this._max);
                 var column = {
-                    name: index.toString(),
+                    name: 'int' + index.toString(),
                     options: values.map(function (val) {
                         return {
                             value: val,
@@ -163,7 +163,7 @@ export var Numeric = (function (_super) {
                     var values = void 0;
                     values = numberValueRange(index, this._min, this._max);
                     var column = {
-                        name: index.toString(),
+                        name: 'dec' + index.toString(),
                         options: values.map(function (val) {
                             return {
                                 value: val,

@@ -1,6 +1,6 @@
 {
   "name": "ionic2-numericpicker",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "Component for picking numbers in ionic2",
   "main": "index.js",
   "typings": "index.d.ts",
