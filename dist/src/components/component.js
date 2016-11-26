@@ -336,7 +336,8 @@ export var Numeric = (function (_super) {
                 var element = keys.find(function (k) { return k.replace('dec', '') === index.toString(); });
                 if (!element)
                     break;
-                result += Math.round(columns[element].value / Math.pow(10, index + 1));
+                result += columns[element].value / Math.pow(10, index + 1);
+                result = +result.toFixed(index + 1);
             }
         }
         return result;
