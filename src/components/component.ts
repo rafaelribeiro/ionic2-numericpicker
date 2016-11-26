@@ -5,7 +5,6 @@ import { NumericData } from '../models/data';
 import { merge, isArray, isString, isPresent, isBlank, isTrueProperty } from 'ionic-angular/util/util';
 import { parseTemplate, numberValueRange, getValueFromFormat } from '../providers/util';
 @Component({
-    moduleId: module.id,
     selector: 'ion-numeric',
     template:
     '<div class="numeric-text">{{_text}}</div>' +
