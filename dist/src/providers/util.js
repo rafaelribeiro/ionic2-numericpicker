@@ -1,6 +1,4 @@
 export function parseTemplate(template) {
-    var formats = [];
-    template = template.replace(/[^\w\s]/gi, ' ');
     var parsed = template.split('.');
     return { integers: parsed[0].length, decimals: parsed[1] ? parsed[1].length : 0 };
 }
