@@ -152,7 +152,7 @@ export var Numeric = (function (_super) {
             }
             if (format.decimals) {
                 var seperator = {
-                    name: index.toString(),
+                    name: 'seperator',
                     options: [{
                             value: '.',
                             text: '.',
@@ -324,19 +324,19 @@ export var Numeric = (function (_super) {
             return 0;
         var result = 0;
         var keys = Object.keys(columns);
-        for (var index = 0; index < keys.length; index++) {
-            var element = columns[keys[index]];
-            if (element.value === '.')
+        for (var index = 0; index < 10; index++) {
+            var element = keys.find(function (k) { return k.replace('int', '') === index.toString(); });
+            if (!element)
                 break;
-            result += element.value * Math.pow(10, index);
+            result += columns[element].value * Math.pow(10, index);
         }
-        if (keys.some(function (d) { return columns[d].value === '.'; })) {
-            var indexOfDecimal = +keys.find(function (d) { return columns[d].value === '.'; });
-            for (var index = indexOfDecimal + 1; index < keys.length; index++) {
-                var element = columns[keys[index]];
-                if (element.value === '.')
+        if (keys.some(function (d) { return d === 'seperator'; })) {
+            var indexOfDecimal = +keys.find(function (d) { return d === 'seperator'; });
+            for (var index = 0; index < 10; index++) {
+                var element = keys.find(function (k) { return k.replace('int', '') === index.toString(); });
+                if (!element)
                     break;
-                result += element.value / Math.pow(10, index - indexOfDecimal + 1);
+                result += columns[element].value / Math.pow(10, index + 1);
             }
         }
         return result;

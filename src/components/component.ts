@@ -227,7 +227,7 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
             }
             if (format.decimals) {
                 let seperator: PickerColumn = {
-                    name: index.toString(),
+                    name: 'seperator',
                     options: [{
                         value: '.',
                         text: '.',
@@ -419,17 +419,17 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
         if (columns === null) return 0;
         let result = 0;
         let keys = Object.keys(columns);
-        for (var index = 0; index < keys.length; index++) {
-            var element = columns[keys[index]];
-            if (element.value === '.') break;
-            result += element.value * Math.pow(10, index);
+        for (var index = 0; index < 10; index++) {
+            let element = keys.find(k => k.replace('int', '') === index.toString())
+            if (!element) break;
+            result += columns[element].value * Math.pow(10, index);
         }
-        if (keys.some(d => columns[d].value === '.')) {
-            let indexOfDecimal = +keys.find(d => columns[d].value === '.');
-            for (var index = indexOfDecimal + 1; index < keys.length; index++) {
-                var element = columns[keys[index]];
-                if (element.value === '.') break;
-                result += element.value / Math.pow(10, index - indexOfDecimal + 1);
+        if (keys.some(d => d === 'seperator')) {
+            let indexOfDecimal = +keys.find(d => d === 'seperator');
+            for (var index = 0; index < 10; index++) {
+                let element = keys.find(k => k.replace('int', '') === index.toString())
+                if (!element) break;
+                result += columns[element].value / Math.pow(10, index + 1);
             }
         }
         return result;
