@@ -16,7 +16,7 @@ export var NUMERIC_VALUE_ACCESSOR = {
 export var Numeric = (function (_super) {
     __extends(Numeric, _super);
     function Numeric(_form, config, elementRef, renderer, _item, _pickerCtrl) {
-        _super.call(this, config, elementRef, renderer, 'numeric');
+        _super.call(this, config, elementRef, renderer, 'datetime');
         this._form = _form;
         this._item = _item;
         this._pickerCtrl = _pickerCtrl;
@@ -47,9 +47,9 @@ export var Numeric = (function (_super) {
         this.ionCancel = new EventEmitter();
         _form.register(this);
         if (_item) {
-            this.id = 'dt-' + _item.registerInput('numeric');
+            this.id = 'dt-' + _item.registerInput('datetime');
             this._labelId = 'lbl-' + _item.id;
-            this._item.setElementClass('item-numeric', true);
+            this._item.setElementClass('item-datetime', true);
         }
     }
     Object.defineProperty(Numeric.prototype, "mode", {
@@ -226,7 +226,7 @@ export var Numeric = (function (_super) {
         },
         set: function (val) {
             this._disabled = isTrueProperty(val);
-            this._item && this._item.setElementClass('item-numeric-disabled', this._disabled);
+            this._item && this._item.setElementClass('item-datetime-disabled', this._disabled);
         },
         enumerable: true,
         configurable: true
@@ -299,7 +299,7 @@ export var Numeric = (function (_super) {
     Numeric.decorators = [
         { type: Component, args: [{
                     selector: 'ion-numeric',
-                    template: '<div class="numeric-text">{{_text}}</div>' +
+                    template: '<div class="datetime-text">{{_text}}</div>' +
                         '<button aria-haspopup="true" ' +
                         'type="button" ' +
                         '[id]="id" ' +

@@ -12,7 +12,7 @@ export const NUMERIC_VALUE_ACCESSOR: any = {
 @Component({
     selector: 'ion-numeric',
     template:
-    '<div class="numeric-text">{{_text}}</div>' +
+    '<div class="datetime-text">{{_text}}</div>' +
     '<button aria-haspopup="true" ' +
     'type="button" ' +
     '[id]="id" ' +
@@ -111,14 +111,14 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
         @Optional() private _item: Item,
         @Optional() private _pickerCtrl: PickerController
     ) {
-        super(config, elementRef, renderer, 'numeric');
+        super(config, elementRef, renderer, 'datetime');
         _form.register(this);
 
 
         if (_item) {
-            this.id = 'dt-' + _item.registerInput('numeric');
+            this.id = 'dt-' + _item.registerInput('datetime');
             this._labelId = 'lbl-' + _item.id;
-            this._item.setElementClass('item-numeric', true);
+            this._item.setElementClass('item-datetime', true);
         }
     }
 
@@ -314,7 +314,7 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
 
     set disabled(val) {
         this._disabled = isTrueProperty(val);
-        this._item && this._item.setElementClass('item-numeric-disabled', this._disabled);
+        this._item && this._item.setElementClass('item-datetime-disabled', this._disabled);
     }
 
     /**
