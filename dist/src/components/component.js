@@ -150,6 +150,40 @@ export var Numeric = (function (_super) {
                     picker.addColumn(column);
                 }
             }
+            if (format.decimals) {
+                var seperator = {
+                    name: index.toString(),
+                    options: [{
+                            value: '.',
+                            text: '.',
+                        }]
+                };
+                picker.addColumn(seperator);
+                for (var index = 0; index < format.decimals; index++) {
+                    var values = void 0;
+                    values = numberValueRange(index, this._min, this._max);
+                    var column = {
+                        name: index.toString(),
+                        options: values.map(function (val) {
+                            return {
+                                value: val,
+                                text: val,
+                            };
+                        })
+                    };
+                    if (column.options.length) {
+                        // cool, we've loaded up the columns with options
+                        // preselect the option for this column
+                        var selected = column.options.find(function (opt) { return opt.value === getValueFromFormat(_this._value, index); });
+                        if (selected) {
+                            // set the select index for this column's options
+                            column.selectedIndex = column.options.indexOf(selected);
+                        }
+                        // add our newly created column to the picker
+                        picker.addColumn(column);
+                    }
+                }
+            }
         }
         this.divyColumns(picker);
     };
@@ -292,7 +326,18 @@ export var Numeric = (function (_super) {
         var keys = Object.keys(columns);
         for (var index = 0; index < keys.length; index++) {
             var element = columns[keys[index]];
+            if (element.value === '.')
+                break;
             result += element.value * Math.pow(10, index);
+        }
+        if (keys.some(function (d) { return columns[d].value === '.'; })) {
+            var indexOfDecimal = +keys.find(function (d) { return columns[d].value === '.'; });
+            for (var index = indexOfDecimal + 1; index < keys.length; index++) {
+                var element = columns[keys[index]];
+                if (element.value === '.')
+                    break;
+                result += element.value / Math.pow(10, index - indexOfDecimal + 1);
+            }
         }
         return result;
     };

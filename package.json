@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "ngc": "ngc",
-    "build": "del aot dist && npm run ngc && node ./scripts/copy-package && npm run copy_package",
+    "build": "npm run ngc && node ./scripts/copy-package && npm run copy_package",
     "publishPackage": "npm run build && cd dist && npm publish"
   },
   "repository": {

@@ -225,6 +225,42 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
                     picker.addColumn(column);
                 }
             }
+            if (format.decimals) {
+                let seperator: PickerColumn = {
+                    name: index.toString(),
+                    options: [{
+                        value: '.',
+                        text: '.',
+                    }]
+                };
+                picker.addColumn(seperator);
+                for (var index = 0; index < format.decimals; index++) {
+                    let values: any[];
+                    values = numberValueRange(index, this._min, this._max);
+                    let column: PickerColumn = {
+                        name: index.toString(),
+                        options: values.map(val => {
+                            return {
+                                value: val,
+                                text: val,
+                            };
+                        })
+                    };
+
+                    if (column.options.length) {
+                        // cool, we've loaded up the columns with options
+                        // preselect the option for this column
+                        var selected = column.options.find(opt => opt.value === getValueFromFormat(this._value, index));
+                        if (selected) {
+                            // set the select index for this column's options
+                            column.selectedIndex = column.options.indexOf(selected);
+                        }
+
+                        // add our newly created column to the picker
+                        picker.addColumn(column);
+                    }
+                }
+            }
             // loop through each format in the template
             // create a new picker column to build up with data
         }
@@ -385,7 +421,16 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
         let keys = Object.keys(columns);
         for (var index = 0; index < keys.length; index++) {
             var element = columns[keys[index]];
+            if (element.value === '.') break;
             result += element.value * Math.pow(10, index);
+        }
+        if (keys.some(d => columns[d].value === '.')) {
+            let indexOfDecimal = +keys.find(d => columns[d].value === '.');
+            for (var index = indexOfDecimal + 1; index < keys.length; index++) {
+                var element = columns[keys[index]];
+                if (element.value === '.') break;
+                result += element.value / Math.pow(10, index - indexOfDecimal + 1);
+            }
         }
         return result;
     }
