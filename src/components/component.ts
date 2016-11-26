@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, HostListener, ViewEncapsulation, Optional, ElementRef, Renderer, AfterContentInit } from '@angular/core';
-import { DateTime, Form, Config, Item, PickerController, Picker, Ion, PickerColumn, PickerColumnOption } from 'ionic-angular';
+import { Form, Config, Item, PickerController, Picker, Ion, PickerColumn, PickerColumnOption } from 'ionic-angular';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NumericData } from '../models/data';
 import { merge, isArray, isString, isPresent, isBlank, isTrueProperty } from 'ionic-angular/util/util';
@@ -8,7 +8,7 @@ import { parseTemplate, numberValueRange, getValueFromFormat } from '../provider
     moduleId: module.id,
     selector: 'ion-numeric',
     template:
-    '<div class="datetime-text">{{_text}}</div>' +
+    '<div class="numeric-text">{{_text}}</div>' +
     '<button aria-haspopup="true" ' +
     'type="button" ' +
     '[id]="id" ' +
@@ -90,12 +90,12 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
     }
 
     /**
-     * @output {any} Any expression to evaluate when the datetime selection has changed.
+     * @output {any} Any expression to evaluate when the numeric selection has changed.
      */
     @Output() ionChange: EventEmitter<any> = new EventEmitter();
 
     /**
-     * @output {any} Any expression to evaluate when the datetime selection was cancelled.
+     * @output {any} Any expression to evaluate when the numeric selection was cancelled.
      */
     @Output() ionCancel: EventEmitter<any> = new EventEmitter();
     constructor(
@@ -143,7 +143,7 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
             return;
         }
 
-        console.debug('datetime, open picker');
+        console.debug('numeric, open picker');
 
         // the user may have assigned some options specifically for the alert
         let pickerOptions = merge({}, this.pickerOptions);
@@ -196,7 +196,6 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
             let format = parseTemplate(template);
             for (var index = 0; index < format.integers; index++) {
                 let values: any[];
-                // use the default date part values
                 values = numberValueRange(index, this._min, this._max);
                 let column: PickerColumn = {
                     name: index.toString(),
@@ -211,7 +210,7 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
                 if (column.options.length) {
                     // cool, we've loaded up the columns with options
                     // preselect the option for this column
-                    var selected = column.options.find(opt => opt.value === getValueFromFormat(this._value, format));
+                    var selected = column.options.find(opt => opt.value === getValueFromFormat(this._value, index));
                     if (selected) {
                         // set the select index for this column's options
                         column.selectedIndex = column.options.indexOf(selected);
@@ -301,7 +300,7 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
     }
 
     /**
-     * @input {boolean} Whether or not the datetime component is disabled. Default `false`.
+     * @input {boolean} Whether or not the numeric component is disabled. Default `false`.
      */
     @Input()
     get disabled() {
@@ -310,14 +309,14 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
 
     set disabled(val) {
         this._disabled = isTrueProperty(val);
-        this._item && this._item.setElementClass('item-datetime-disabled', this._disabled);
+        this._item && this._item.setElementClass('item-numeric-disabled', this._disabled);
     }
 
     /**
      * @private
      */
     writeValue(val: any) {
-        console.debug('datetime, writeValue', val);
+        console.debug('numeric, writeValue', val);
         this.setValue(val);
         this.updateText();
         this.checkHasValue(val);
