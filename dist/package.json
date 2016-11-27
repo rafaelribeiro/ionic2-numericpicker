@@ -7,7 +7,7 @@
   "keywords": [],
   "scripts": {
     "ngc": "ngc",
-    "build": "npm run ngc && node ./scripts/copy-package && npm run copy_package",
+    "build": "npm run ngc && node ./scripts/copy-package",
     "publishPackage": "npm run build && cd dist && npm publish"
   },
   "repository": {
@@ -26,7 +26,10 @@
     "@angular/compiler": "2.1.1",
     "@angular/compiler-cli": "2.1.1",
     "@angular/platform-browser": "2.1.1",
+    "@angular/forms": "2.1.1",
+    "@angular/http": "2.1.1",
     "ionic-angular": "^2.0.0-rc.3",
-    "rxjs": "5.0.0-beta.12"
+    "rxjs": "5.0.0-beta.12",
+    "zone.js": "~0.6.26"
   }
 }

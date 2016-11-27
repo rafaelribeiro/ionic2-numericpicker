@@ -337,6 +337,16 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
     updateText() {
         // create the text of the formatted data
         const template = this.displayFormat || this.pickerFormat || DEFAULT_FORMAT;
+        let text = this._value.toString();
+        let indices = [];
+        for (let i = 0; i < template.length; i++) {
+            if (template[i] === '.') indices.push(i);
+        }
+        if (indices.length > 0) {
+            for (let add = 0; add < indices.length; add++) {
+                text = text.slice(0, add + indices[add]) + ',' + text.slice(add + indices[add]);
+            }
+        }
         this._text = this._value.toString();
     }
 

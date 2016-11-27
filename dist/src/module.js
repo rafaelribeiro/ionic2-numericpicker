@@ -10,7 +10,8 @@ export var NumericModule = (function () {
                         Numeric
                     ],
                     providers: [],
-                    exports: [Numeric
+                    exports: [
+                        Numeric
                     ],
                     imports: [
                         BrowserModule

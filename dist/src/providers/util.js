@@ -1,4 +1,5 @@
 export function parseTemplate(template) {
+    template = template.replace(',', '');
     var parsed = template.split('.');
     return { integers: parsed[0].length, decimals: parsed[1] ? parsed[1].length : 0 };
 }

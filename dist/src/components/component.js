@@ -249,6 +249,17 @@ export var Numeric = (function (_super) {
     Numeric.prototype.updateText = function () {
         // create the text of the formatted data
         var template = this.displayFormat || this.pickerFormat || DEFAULT_FORMAT;
+        var text = this._value.toString();
+        var indices = [];
+        for (var i = 0; i < template.length; i++) {
+            if (template[i] === '.')
+                indices.push(i);
+        }
+        if (indices.length > 0) {
+            for (var add = 0; add < indices.length; add++) {
+                text = text.slice(0, add + indices[add]) + ',' + text.slice(add + indices[add]);
+            }
+        }
         this._text = this._value.toString();
     };
     Object.defineProperty(Numeric.prototype, "disabled", {
