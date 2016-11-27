@@ -339,7 +339,7 @@ export var Numeric = (function (_super) {
             var element = keys.find(function (k) { return k.replace('int', '') === index.toString(); });
             if (!element)
                 break;
-            result = result * Math.pow(10, index);
+            result = result * Math.pow(10, index === 0 ? 0 : 1);
             result += columns[element].value;
         }
         if (keys.some(function (d) { return d === 'seperator'; })) {
