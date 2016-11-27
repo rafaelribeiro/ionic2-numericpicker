@@ -355,6 +355,9 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
                 text += '0';
             }
         }
+        else if (text.indexOf('.') !== -1) {
+            text = text.split('.')[0];
+        }
         if (indices.length > 0 && template.length === text.length + indices.length) {
             for (let add = 0; add < indices.length; add++) {
                 text = text.slice(0, add + indices[add]) + ',' + text.slice(add + indices[add]);
