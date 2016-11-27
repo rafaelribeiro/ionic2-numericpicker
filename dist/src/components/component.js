@@ -252,7 +252,7 @@ export var Numeric = (function (_super) {
         var text = this._value.toString();
         var indices = [];
         for (var i = 0; i < template.length; i++) {
-            if (template[i] === '.')
+            if (template[i] === ',')
                 indices.push(i);
         }
         if (indices.length > 0) {

@@ -340,7 +340,7 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
         let text = this._value.toString();
         let indices = [];
         for (let i = 0; i < template.length; i++) {
-            if (template[i] === '.') indices.push(i);
+            if (template[i] === ',') indices.push(i);
         }
         if (indices.length > 0) {
             for (let add = 0; add < indices.length; add++) {
