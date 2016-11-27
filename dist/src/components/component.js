@@ -255,7 +255,7 @@ export var Numeric = (function (_super) {
             if (template[i] === ',')
                 indices.push(i);
         }
-        if (indices.length > 0) {
+        if (indices.length > 0 && template.length === text.length + indices.length) {
             for (var add = 0; add < indices.length; add++) {
                 text = text.slice(0, add + indices[add]) + ',' + text.slice(add + indices[add]);
             }
