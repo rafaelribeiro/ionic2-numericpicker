@@ -141,7 +141,7 @@ export var Numeric = (function (_super) {
                 if (column.options.length) {
                     // cool, we've loaded up the columns with options
                     // preselect the option for this column
-                    var selected = column.options.find(function (opt) { return opt.value === getValueFromFormat(_this._value, format_1.decimals - index); });
+                    var selected = column.options.find(function (opt) { return opt.value === getValueFromFormat(_this._value, format_1.integers - index); });
                     if (selected) {
                         // set the select index for this column's options
                         column.selectedIndex = column.options.indexOf(selected);
@@ -260,7 +260,7 @@ export var Numeric = (function (_super) {
                 text = text.slice(0, add + indices[add]) + ',' + text.slice(add + indices[add]);
             }
         }
-        this._text = this._value.toString();
+        this._text = text;
     };
     Object.defineProperty(Numeric.prototype, "disabled", {
         /**
