@@ -154,9 +154,9 @@ export var Numeric = (function (_super) {
                 var seperator = {
                     name: 'seperator',
                     options: [{
-                        value: '.',
-                        text: '.',
-                    }]
+                            value: '.',
+                            text: '.',
+                        }]
                 };
                 picker.addColumn(seperator);
                 for (var index = 0; index < format_1.decimals; index++) {
@@ -256,10 +256,14 @@ export var Numeric = (function (_super) {
                 indices.push(i);
         }
         // add zeros based on template
-        let seperator = template.indexOf('.');
-        if (seperator !== -1 && template.replace(/,/g, '').length !== text) {
-            if (text.indexOf('.') === -1) text += '.';
-            while (template.replace(/,/g, '').length !== text) {
+        var seperator = template.indexOf('.');
+        var templateDecimals = template.split('.')[1];
+        if (seperator !== -1) {
+            if (text.indexOf('.') === -1)
+                text += '.';
+            var textDecimals = text.split('.')[1];
+            while (templateDecimals.length !== textDecimals.length) {
+                textDecimals += '0';
                 text += '0';
             }
         }
@@ -362,25 +366,23 @@ export var Numeric = (function (_super) {
         return result;
     };
     Numeric.decorators = [
-        {
-            type: Component, args: [{
-                selector: 'ion-numeric',
-                template: '<div class="datetime-text">{{_text}}</div>' +
-                '<button aria-haspopup="true" ' +
-                'type="button" ' +
-                '[id]="id" ' +
-                'ion-button="item-cover" ' +
-                '[attr.aria-labelledby]="_labelId" ' +
-                '[attr.aria-disabled]="_disabled" ' +
-                'class="item-cover">' +
-                '</button>',
-                host: {
-                    '[class.numeric-disabled]': '_disabled'
-                },
-                providers: [NUMERIC_VALUE_ACCESSOR],
-                encapsulation: ViewEncapsulation.None,
-            },]
-        },
+        { type: Component, args: [{
+                    selector: 'ion-numeric',
+                    template: '<div class="datetime-text">{{_text}}</div>' +
+                        '<button aria-haspopup="true" ' +
+                        'type="button" ' +
+                        '[id]="id" ' +
+                        'ion-button="item-cover" ' +
+                        '[attr.aria-labelledby]="_labelId" ' +
+                        '[attr.aria-disabled]="_disabled" ' +
+                        'class="item-cover">' +
+                        '</button>',
+                    host: {
+                        '[class.numeric-disabled]': '_disabled'
+                    },
+                    providers: [NUMERIC_VALUE_ACCESSOR],
+                    encapsulation: ViewEncapsulation.None,
+                },] },
     ];
     /** @nocollapse */
     Numeric.ctorParameters = [
@@ -407,7 +409,7 @@ export var Numeric = (function (_super) {
         'disabled': [{ type: Input },],
     };
     return Numeric;
-} (Ion));
+}(Ion));
 /**
  * @private
  * Use to convert a string of comma separated numbers or

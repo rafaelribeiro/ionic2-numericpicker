@@ -342,6 +342,19 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
         for (let i = 0; i < template.length; i++) {
             if (template[i] === ',') indices.push(i);
         }
+        // add zeros based on template
+        var seperator = template.indexOf('.');
+        let templateDecimals = template.split('.')[1];
+        if (seperator !== -1) {
+            if (text.indexOf('.') === -1)
+                text += '.';
+            let textDecimals = text.split('.')[1];
+
+            while (templateDecimals.length !== textDecimals.length) {
+                textDecimals += '0';
+                text += '0';
+            }
+        }
         if (indices.length > 0 && template.length === text.length + indices.length) {
             for (let add = 0; add < indices.length; add++) {
                 text = text.slice(0, add + indices[add]) + ',' + text.slice(add + indices[add]);
