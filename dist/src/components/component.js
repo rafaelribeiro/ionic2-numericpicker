@@ -52,6 +52,28 @@ export var Numeric = (function (_super) {
             this._item.setElementClass('item-datetime', true);
         }
     }
+    Object.defineProperty(Numeric.prototype, "min", {
+        /**
+         * @input {string} The minimum number allowed. Value must be a number string
+         * following the
+         */
+        set: function (val) {
+            this._min = +val;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Numeric.prototype, "max", {
+        /**
+         * @input {string} The maximum number allowed. Value must be a number string
+         * following the
+         */
+        set: function (val) {
+            this._max = +val;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(Numeric.prototype, "mode", {
         /**
          * @input {string} The mode to apply to this component.

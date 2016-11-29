@@ -6,8 +6,8 @@ export function parseTemplate(template: string): { integers: number, decimals: n
 
 export function numberValueRange(pow: number, min: number, max: number): number[] {
     let ret = [];
-    min = getNthDigit(min, pow);
-    max = getNthDigit(max, pow);
+    min = getNthDigit(min, min.toString().length - pow);
+    max = getNthDigit(max, min.toString().length - pow);
     for (var index = 0; index < 10; index++) {
         if (min > index) continue;
         if (max < index) continue;

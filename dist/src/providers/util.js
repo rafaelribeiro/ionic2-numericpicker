@@ -5,8 +5,8 @@ export function parseTemplate(template) {
 }
 export function numberValueRange(pow, min, max) {
     var ret = [];
-    min = getNthDigit(min, pow);
-    max = getNthDigit(max, pow);
+    min = getNthDigit(min, pow + 1);
+    max = getNthDigit(max, pow + 1);
     for (var index = 0; index < 10; index++) {
         if (min > index)
             continue;

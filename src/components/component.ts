@@ -46,13 +46,17 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
      * @input {string} The minimum number allowed. Value must be a number string
      * following the
      */
-    @Input() min: string;
+    @Input() public set min(val: string) {
+        this._min = +val;
+    }
 
     /**
      * @input {string} The maximum number allowed. Value must be a number string
      * following the
      */
-    @Input() max: string;
+    @Input() public set max(val: string) {
+        this._max = +val;
+    }
 
     /**
      * @input {string} The display format of the number as text that shows
