@@ -219,7 +219,7 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
                 if (column.options.length) {
                     // cool, we've loaded up the columns with options
                     // preselect the option for this column
-                    var selected = column.options.find(opt => opt.value === getValueFromFormat(this._value, format.integers - index));
+                    var selected = column.options.find(opt => opt.value === getValueFromFormat(this.getValue(), format.integers - index));
                     if (selected) {
                         // set the select index for this column's options
                         column.selectedIndex = column.options.indexOf(selected);
@@ -254,7 +254,7 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
                     if (column.options.length) {
                         // cool, we've loaded up the columns with options
                         // preselect the option for this column
-                        var selected = column.options.find(opt => opt.value === getValueFromFormat(this._value, format.decimals - index, true));
+                        var selected = column.options.find(opt => opt.value === getValueFromFormat(this.getValue(), format.decimals - index, true));
                         if (selected) {
                             // set the select index for this column's options
                             column.selectedIndex = column.options.indexOf(selected);
@@ -323,7 +323,7 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
      * @private
      */
     getValue(): number {
-        return this._value;
+        return this._value || 0;
     }
 
     /**
@@ -341,7 +341,7 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
     updateText() {
         // create the text of the formatted data
         const template = this.displayFormat || this.pickerFormat || DEFAULT_FORMAT;
-        let text = this._value.toString();
+        let text = this.getValue().toString();
         let indices = [];
         for (let i = 0; i < template.length; i++) {
             if (template[i] === ',') indices.push(i);

@@ -1,10 +1,18 @@
 {
   "name": "ionic2-numericpicker",
-  "version": "0.0.8",
+  "version": "1.0.0",
   "description": "Component for picking numbers in ionic2",
   "main": "index.js",
   "typings": "index.d.ts",
-  "keywords": [],
+  "keywords": [
+    "ionic2",
+    "numeric",
+    "number",
+    "picker",
+    "angular2",
+    "ng2",
+    "datetime"
+  ],
   "scripts": {
     "ngc": "ngc",
     "build": "npm run ngc && node ./scripts/copy-package",
@@ -14,7 +22,7 @@
     "type": "git",
     "url": "git+https://github.com/misha130/ionic2-numericpicker.git"
   },
-  "author": "",
+  "author": "Misha Prokofyev",
   "license": "MIT",
   "bugs": {
     "url": "git+https://github.com/misha130/ionic2-numericpicker/issues"

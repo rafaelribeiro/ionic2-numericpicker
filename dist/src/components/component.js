@@ -163,7 +163,7 @@ export var Numeric = (function (_super) {
                 if (column.options.length) {
                     // cool, we've loaded up the columns with options
                     // preselect the option for this column
-                    var selected = column.options.find(function (opt) { return opt.value === getValueFromFormat(_this._value, format_1.integers - index); });
+                    var selected = column.options.find(function (opt) { return opt.value === getValueFromFormat(_this.getValue(), format_1.integers - index); });
                     if (selected) {
                         // set the select index for this column's options
                         column.selectedIndex = column.options.indexOf(selected);
@@ -196,7 +196,7 @@ export var Numeric = (function (_super) {
                     if (column.options.length) {
                         // cool, we've loaded up the columns with options
                         // preselect the option for this column
-                        var selected = column.options.find(function (opt) { return opt.value === getValueFromFormat(_this._value, format_1.decimals - index, true); });
+                        var selected = column.options.find(function (opt) { return opt.value === getValueFromFormat(_this.getValue(), format_1.decimals - index, true); });
                         if (selected) {
                             // set the select index for this column's options
                             column.selectedIndex = column.options.indexOf(selected);
@@ -255,7 +255,7 @@ export var Numeric = (function (_super) {
      * @private
      */
     Numeric.prototype.getValue = function () {
-        return this._value;
+        return this._value || 0;
     };
     /**
      * @private
@@ -271,7 +271,7 @@ export var Numeric = (function (_super) {
     Numeric.prototype.updateText = function () {
         // create the text of the formatted data
         var template = this.displayFormat || this.pickerFormat || DEFAULT_FORMAT;
-        var text = this._value.toString();
+        var text = this.getValue().toString();
         var indices = [];
         for (var i = 0; i < template.length; i++) {
             if (template[i] === ',')
