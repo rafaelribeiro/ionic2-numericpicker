@@ -1,6 +1,6 @@
 {
   "name": "ionic2-numericpicker",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Component for picking numbers in ionic2",
   "main": "index.js",
   "typings": "index.d.ts",
@@ -8,7 +8,8 @@
   "scripts": {
     "ngc": "ngc",
     "build": "npm run ngc && node ./scripts/copy-package",
-    "publishPackage": "npm run build && cd dist && npm publish"
+    "publishPackage": "npm run build && cd dist && npm publish",
+    "test": "ng test --code-coverage"
   },
   "repository": {
     "type": "git",

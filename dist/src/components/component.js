@@ -3,54 +3,65 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-import { Component, Input, Output, EventEmitter, HostListener, forwardRef, ViewEncapsulation, Optional, ElementRef, Renderer } from '@angular/core';
-import { Form, Config, Item, PickerController, Ion } from 'ionic-angular';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { merge, isArray, isString, isPresent, isTrueProperty } from 'ionic-angular/util/util';
-import { parseTemplate, numberValueRange, getValueFromFormat } from '../providers/util';
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+import { Component, EventEmitter, HostListener, Input, Optional, Output, ViewEncapsulation, forwardRef, } from '@angular/core';
+import { Ion, } from 'ionic-angular';
+import { NG_VALUE_ACCESSOR, } from '@angular/forms';
+import { getValueFromFormat, numberValueRange, parseTemplate, } from '../providers/util';
+import { isArray, isPresent, isString, isTrueProperty, merge, } from 'ionic-angular/util/util';
 export var NUMERIC_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(function () { return Numeric; }),
-    multi: true
+    multi: true,
 };
-export var Numeric = (function (_super) {
+var DEFAULT_FORMAT = 'XX.XX';
+var Numeric = (function (_super) {
     __extends(Numeric, _super);
     function Numeric(_form, config, elementRef, renderer, _item, _pickerCtrl) {
-        _super.call(this, config, elementRef, renderer, 'datetime');
-        this._form = _form;
-        this._item = _item;
-        this._pickerCtrl = _pickerCtrl;
-        this._disabled = false;
-        this._text = '';
-        this._isOpen = false;
-        this._value = 0;
+        var _this = _super.call(this, config, elementRef, renderer, 'datetime') || this;
+        _this._form = _form;
+        _this._item = _item;
+        _this._pickerCtrl = _pickerCtrl;
+        _this._disabled = false;
+        _this._text = '';
+        _this._isOpen = false;
+        _this._value = 0;
         /**
          * @input {string} The text to display on the picker's cancel button. Default: `Cancel`.
          */
-        this.cancelText = 'Cancel';
+        _this.cancelText = 'Cancel';
         /**
          * @input {string} The text to display on the picker's "Done" button. Default: `Done`.
          */
-        this.doneText = 'Done';
+        _this.doneText = 'Done';
         /**
          * @input {any} Any additional options that the picker interface can accept.
          * See the [Picker API docs](../../picker/Picker) for the picker options.
          */
-        this.pickerOptions = {};
+        _this.pickerOptions = {};
         /**
          * @output {any} Any expression to evaluate when the numeric selection has changed.
          */
-        this.ionChange = new EventEmitter();
+        _this.ionChange = new EventEmitter();
         /**
          * @output {any} Any expression to evaluate when the numeric selection was cancelled.
          */
-        this.ionCancel = new EventEmitter();
-        _form.register(this);
+        _this.ionCancel = new EventEmitter();
+        _form.register(_this);
         if (_item) {
-            this.id = 'dt-' + _item.registerInput('datetime');
-            this._labelId = 'lbl-' + _item.id;
-            this._item.setElementClass('item-datetime', true);
+            _this.id = 'dt-' + _item.registerInput('datetime');
+            _this._labelId = 'lbl-' + _item.id;
+            _this._item.setElementClass('item-datetime', true);
         }
+        return _this;
     }
     Object.defineProperty(Numeric.prototype, "min", {
         /**
@@ -98,9 +109,6 @@ export var Numeric = (function (_super) {
             this.open();
         }
     };
-    /**
-  * @private
-  */
     Numeric.prototype.open = function () {
         var _this = this;
         if (this._disabled) {
@@ -116,7 +124,7 @@ export var Numeric = (function (_super) {
                 role: 'cancel',
                 handler: function () {
                     _this.ionCancel.emit(null);
-                }
+                },
             },
             {
                 text: this.doneText,
@@ -124,8 +132,8 @@ export var Numeric = (function (_super) {
                     console.debug('numeric, done', data);
                     _this.onChange(data);
                     _this.ionChange.emit(data);
-                }
-            }
+                },
+            },
         ];
         this.generate(picker);
         this.validate(picker);
@@ -138,9 +146,6 @@ export var Numeric = (function (_super) {
             _this._isOpen = false;
         });
     };
-    /**
-      * @private
-      */
     Numeric.prototype.generate = function (picker) {
         var _this = this;
         // if a picker format wasn't provided, then fallback
@@ -148,9 +153,9 @@ export var Numeric = (function (_super) {
         var template = this.pickerFormat || this.displayFormat || DEFAULT_FORMAT;
         if (isPresent(template)) {
             var format_1 = parseTemplate(template);
-            for (var index = 0; index < format_1.integers; index++) {
+            var _loop_1 = function (index) {
                 var values = void 0;
-                values = numberValueRange(index, this._min, this._max);
+                values = numberValueRange(index, this_1._min, this_1._max);
                 var column = {
                     name: 'int' + index.toString(),
                     options: values.map(function (val) {
@@ -158,7 +163,7 @@ export var Numeric = (function (_super) {
                             value: val,
                             text: val,
                         };
-                    })
+                    }),
                 };
                 if (column.options.length) {
                     // cool, we've loaded up the columns with options
@@ -171,6 +176,10 @@ export var Numeric = (function (_super) {
                     // add our newly created column to the picker
                     picker.addColumn(column);
                 }
+            };
+            var this_1 = this;
+            for (var index = 0; index < format_1.integers; index++) {
+                _loop_1(index);
             }
             if (format_1.decimals) {
                 var seperator = {
@@ -178,12 +187,12 @@ export var Numeric = (function (_super) {
                     options: [{
                             value: '.',
                             text: '.',
-                        }]
+                        }],
                 };
                 picker.addColumn(seperator);
-                for (var index = 0; index < format_1.decimals; index++) {
+                var _loop_2 = function (index) {
                     var values = void 0;
-                    values = numberValueRange(index, this._min, this._max);
+                    values = numberValueRange(index, this_2._min, this_2._max);
                     var column = {
                         name: 'dec' + index.toString(),
                         options: values.map(function (val) {
@@ -191,7 +200,7 @@ export var Numeric = (function (_super) {
                                 value: val,
                                 text: val,
                             };
-                        })
+                        }),
                     };
                     if (column.options.length) {
                         // cool, we've loaded up the columns with options
@@ -204,22 +213,20 @@ export var Numeric = (function (_super) {
                         // add our newly created column to the picker
                         picker.addColumn(column);
                     }
+                };
+                var this_2 = this;
+                for (var index = 0; index < format_1.decimals; index++) {
+                    _loop_2(index);
                 }
             }
         }
         this.divyColumns(picker);
     };
-    /**
-       * @private
-       */
     Numeric.prototype.validate = function (picker) {
         var i;
         var columns = picker.getColumns();
         picker.refresh();
     };
-    /**
-     * @private
-     */
     Numeric.prototype.divyColumns = function (picker) {
         var pickerColumns = picker.getColumns();
         var columns = [];
@@ -245,29 +252,17 @@ export var Numeric = (function (_super) {
             pickerColumns[2].align = 'left';
         }
     };
-    /**
-     * @private
-     */
     Numeric.prototype.setValue = function (newData) {
         this._value = this.convertColumnsToNumbers(newData);
     };
-    /**
-     * @private
-     */
     Numeric.prototype.getValue = function () {
         return this._value || 0;
     };
-    /**
-     * @private
-     */
     Numeric.prototype.checkHasValue = function (inputValue) {
         if (this._item) {
             this._item.setElementClass('input-has-value', !!(inputValue && inputValue !== ''));
         }
     };
-    /**
-     * @private
-     */
     Numeric.prototype.updateText = function () {
         // create the text of the formatted data
         var template = this.displayFormat || this.pickerFormat || DEFAULT_FORMAT;
@@ -313,29 +308,19 @@ export var Numeric = (function (_super) {
         enumerable: true,
         configurable: true
     });
-    /**
-     * @private
-     */
     Numeric.prototype.writeValue = function (val) {
         console.debug('numeric, writeValue', val);
         this.setValue(val);
         this.updateText();
         this.checkHasValue(val);
     };
-    /**
-     * @private
-     */
     Numeric.prototype.ngAfterContentInit = function () {
         this.updateText();
     };
-    /**
-     * @private
-     */
     Numeric.prototype.registerOnChange = function (fn) {
         var _this = this;
         this._fn = fn;
         this.onChange = function (val) {
-            console.debug('numeric, onChange', val);
             _this.setValue(val);
             _this.updateText();
             _this.checkHasValue(val);
@@ -343,13 +328,7 @@ export var Numeric = (function (_super) {
             _this.onTouched();
         };
     };
-    /**
-     * @private
-     */
     Numeric.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
-    /**
-     * @private
-     */
     Numeric.prototype.onChange = function (val) {
         // onChange used when there is not an formControlName
         console.debug('numeric, onChange w/out formControlName', val);
@@ -357,13 +336,9 @@ export var Numeric = (function (_super) {
         this.updateText();
         this.onTouched();
     };
-    /**
-     * @private
-     */
-    Numeric.prototype.onTouched = function () { };
-    /**
-     * @private
-     */
+    Numeric.prototype.onTouched = function () {
+        // do nothing
+    };
     Numeric.prototype.ngOnDestroy = function () {
         this._form.deregister(this);
     };
@@ -372,69 +347,97 @@ export var Numeric = (function (_super) {
             return 0;
         var result = 0;
         var keys = Object.keys(columns);
-        for (var index = 0; index < 10; index++) {
+        var _loop_3 = function (index) {
             var element = keys.find(function (k) { return k.replace('int', '') === index.toString(); });
             if (!element)
-                break;
+                return "break";
             result = result * Math.pow(10, index === 0 ? 0 : 1);
             result += columns[element].value;
+        };
+        for (var index = 0; index < 10; index++) {
+            var state_1 = _loop_3(index);
+            if (state_1 === "break")
+                break;
         }
         if (keys.some(function (d) { return d === 'seperator'; })) {
-            for (var index = 0; index < 10; index++) {
+            var _loop_4 = function (index) {
                 var element = keys.find(function (k) { return k.replace('dec', '') === index.toString(); });
                 if (!element)
-                    break;
+                    return "break";
                 result += columns[element].value / Math.pow(10, index + 1);
                 result = +result.toFixed(index + 1);
+            };
+            for (var index = 0; index < 10; index++) {
+                var state_2 = _loop_4(index);
+                if (state_2 === "break")
+                    break;
             }
         }
         return result;
     };
-    Numeric.decorators = [
-        { type: Component, args: [{
-                    selector: 'ion-numeric',
-                    template: '<div class="datetime-text">{{_text}}</div>' +
-                        '<button aria-haspopup="true" ' +
-                        'type="button" ' +
-                        '[id]="id" ' +
-                        'ion-button="item-cover" ' +
-                        '[attr.aria-labelledby]="_labelId" ' +
-                        '[attr.aria-disabled]="_disabled" ' +
-                        'class="item-cover">' +
-                        '</button>',
-                    host: {
-                        '[class.numeric-disabled]': '_disabled'
-                    },
-                    providers: [NUMERIC_VALUE_ACCESSOR],
-                    encapsulation: ViewEncapsulation.None,
-                },] },
-    ];
-    /** @nocollapse */
-    Numeric.ctorParameters = [
-        { type: Form, },
-        { type: Config, },
-        { type: ElementRef, },
-        { type: Renderer, },
-        { type: Item, decorators: [{ type: Optional },] },
-        { type: PickerController, decorators: [{ type: Optional },] },
-    ];
-    Numeric.propDecorators = {
-        'min': [{ type: Input },],
-        'max': [{ type: Input },],
-        'displayFormat': [{ type: Input },],
-        'pickerFormat': [{ type: Input },],
-        'cancelText': [{ type: Input },],
-        'doneText': [{ type: Input },],
-        'pickerOptions': [{ type: Input },],
-        'mode': [{ type: Input },],
-        'ionChange': [{ type: Output },],
-        'ionCancel': [{ type: Output },],
-        '_click': [{ type: HostListener, args: ['click', ['$event'],] },],
-        '_keyup': [{ type: HostListener, args: ['keyup.space',] },],
-        'disabled': [{ type: Input },],
-    };
     return Numeric;
 }(Ion));
+__decorate([
+    Input()
+], Numeric.prototype, "min", null);
+__decorate([
+    Input()
+], Numeric.prototype, "max", null);
+__decorate([
+    Input()
+], Numeric.prototype, "displayFormat", void 0);
+__decorate([
+    Input()
+], Numeric.prototype, "pickerFormat", void 0);
+__decorate([
+    Input()
+], Numeric.prototype, "cancelText", void 0);
+__decorate([
+    Input()
+], Numeric.prototype, "doneText", void 0);
+__decorate([
+    Input()
+], Numeric.prototype, "pickerOptions", void 0);
+__decorate([
+    Input()
+], Numeric.prototype, "mode", null);
+__decorate([
+    Output()
+], Numeric.prototype, "ionChange", void 0);
+__decorate([
+    Output()
+], Numeric.prototype, "ionCancel", void 0);
+__decorate([
+    HostListener('click', ['$event'])
+], Numeric.prototype, "_click", null);
+__decorate([
+    HostListener('keyup.space')
+], Numeric.prototype, "_keyup", null);
+__decorate([
+    Input()
+], Numeric.prototype, "disabled", null);
+Numeric = __decorate([
+    Component({
+        selector: 'ion-numeric',
+        template: '<div class="datetime-text">{{_text}}</div>' +
+            '<button aria-haspopup="true" ' +
+            'type="button" ' +
+            '[id]="id" ' +
+            'ion-button="item-cover" ' +
+            '[attr.aria-labelledby]="_labelId" ' +
+            '[attr.aria-disabled]="_disabled" ' +
+            'class="item-cover">' +
+            '</button>',
+        host: {
+            '[class.numeric-disabled]': '_disabled',
+        },
+        providers: [NUMERIC_VALUE_ACCESSOR],
+        encapsulation: ViewEncapsulation.None,
+    }),
+    __param(4, Optional()),
+    __param(5, Optional())
+], Numeric);
+export { Numeric };
 /**
  * @private
  * Use to convert a string of comma separated numbers or
@@ -468,7 +471,7 @@ function convertToArrayOfNumbers(input, type) {
  */
 function convertToArrayOfStrings(input, type) {
     if (isPresent(input)) {
-        var values = [];
+        var values_1 = [];
         if (isString(input)) {
             // convert the string to an array of strings
             // auto remove any [] characters
@@ -479,15 +482,14 @@ function convertToArrayOfStrings(input, type) {
             input.forEach(function (val) {
                 val = val.trim();
                 if (val) {
-                    values.push(val);
+                    values_1.push(val);
                 }
             });
         }
-        if (!values.length) {
+        if (!values_1.length) {
             console.warn("Invalid \"" + type + "Names\". Must be an array of strings, or a comma separated string.");
         }
-        return values;
+        return values_1;
     }
 }
-var DEFAULT_FORMAT = 'XX.XX';
 //# sourceMappingURL=component.js.map

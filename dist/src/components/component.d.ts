@@ -1,22 +1,19 @@
-import { EventEmitter, ElementRef, Renderer, AfterContentInit } from '@angular/core';
-import { Form, Config, Item, PickerController, Picker, Ion } from 'ionic-angular';
+import { AfterContentInit, ElementRef, EventEmitter, Renderer } from '@angular/core';
+import { Config, Form, Ion, Item, PickerController } from 'ionic-angular';
 import { ControlValueAccessor } from '@angular/forms';
 export declare const NUMERIC_VALUE_ACCESSOR: any;
 export declare class Numeric extends Ion implements AfterContentInit, ControlValueAccessor {
     private _form;
     private _item;
     private _pickerCtrl;
-    _disabled: any;
+    _disabled: boolean;
     _labelId: string;
     _text: string;
-    _fn: Function;
-    _isOpen: boolean;
-    _min: number;
-    _max: number;
-    _value: number;
-    /**
-     * @private
-     */
+    private _fn;
+    private _isOpen;
+    private _min;
+    private _max;
+    private _value;
     id: string;
     /**
      * @input {string} The minimum number allowed. Value must be a number string
@@ -69,69 +66,24 @@ export declare class Numeric extends Ion implements AfterContentInit, ControlVal
     constructor(_form: Form, config: Config, elementRef: ElementRef, renderer: Renderer, _item: Item, _pickerCtrl: PickerController);
     _click(ev: UIEvent): void;
     _keyup(): void;
-    /**
-  * @private
-  */
-    open(): void;
-    /**
-      * @private
-      */
-    generate(picker: Picker): void;
-    /**
-       * @private
-       */
-    validate(picker: Picker): void;
-    /**
-     * @private
-     */
-    divyColumns(picker: Picker): void;
-    /**
-     * @private
-     */
-    setValue(newData: any): void;
-    /**
-     * @private
-     */
-    getValue(): number;
-    /**
-     * @private
-     */
-    checkHasValue(inputValue: any): void;
-    /**
-     * @private
-     */
-    updateText(): void;
+    private open();
+    private generate(picker);
+    private validate(picker);
+    private divyColumns(picker);
+    private setValue(newData);
+    private getValue();
+    private checkHasValue(inputValue);
+    private updateText();
     /**
      * @input {boolean} Whether or not the numeric component is disabled. Default `false`.
      */
     disabled: any;
-    /**
-     * @private
-     */
     writeValue(val: any): void;
-    /**
-     * @private
-     */
     ngAfterContentInit(): void;
-    /**
-     * @private
-     */
     registerOnChange(fn: Function): void;
-    /**
-     * @private
-     */
     registerOnTouched(fn: any): void;
-    /**
-     * @private
-     */
-    onChange(val: any): void;
-    /**
-     * @private
-     */
-    onTouched(): void;
-    /**
-     * @private
-     */
+    private onChange(val);
+    private onTouched();
     ngOnDestroy(): void;
-    convertColumnsToNumbers(columns: any): number;
+    private convertColumnsToNumbers(columns);
 }

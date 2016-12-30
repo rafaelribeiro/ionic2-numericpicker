@@ -64,16 +64,16 @@ const DEFAULT_FORMAT: string = 'XX.XX';
     encapsulation: ViewEncapsulation.None,
 })
 export class Numeric extends Ion implements AfterContentInit, ControlValueAccessor {
-    private _disabled: boolean = false;
-    private _labelId: string;
-    private _text: string = '';
+    public _disabled: boolean = false;
+    public _labelId: string;
+    public _text: string = '';
     private _fn: Function;
     private _isOpen: boolean = false;
     private _min: number;
     private _max: number;
     private _value: number = 0;
 
-    private id: string;
+    public id: string;
 
     /**
      * @input {string} The minimum number allowed. Value must be a number string
@@ -158,7 +158,7 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
     }
 
     @HostListener('click', ['$event'])
-    private _click(ev: UIEvent): void {
+    public _click(ev: UIEvent): void {
         if (ev.detail === 0) {
             // do not continue if the click event came from a form submit
             return;
@@ -169,7 +169,7 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
     }
 
     @HostListener('keyup.space')
-    private _keyup(): void {
+    public _keyup(): void {
         if (!this._isOpen) {
             this.open();
         }
@@ -429,7 +429,7 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
         // do nothing
     }
 
-    private ngOnDestroy(): void {
+    public ngOnDestroy(): void {
         this._form.deregister(this);
     }
 

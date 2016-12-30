@@ -1,0 +1,37 @@
+{
+    "project": {
+        "version": "1.0.0",
+        "name": "TNM"
+    },
+    "apps": [{
+        "root": "src",
+        "outDir": "dist",
+        "assets": "assets",
+        "index": "index.html",
+        "main": "main.ts",
+        "test": "tests/test.ts",
+        "tsconfig": "tests/tsconfig.test.json",
+        "prefix": "app",
+        "mobile": true,
+        "styles": [
+            "styles.css"
+        ],
+        "scripts": []
+    }],
+    "addons": [],
+    "packages": [],
+    "e2e": {
+        "protractor": {
+            "config": "./protractor.conf.js"
+        }
+    },
+    "test": {
+        "karma": {
+            "config": "./karma.conf.js"
+        }
+    },
+    "defaults": {
+        "styleExt": "css",
+        "prefixInterfaces": false
+    }
+}

@@ -10,7 +10,8 @@
     "lib": ["dom", "es2015"],
     "outDir": "./dist",
     "types": [
-      "node"
+      "node",
+      "jasmine"
     ]
   },
   "exclude": [
