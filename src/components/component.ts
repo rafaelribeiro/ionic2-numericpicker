@@ -1,14 +1,50 @@
-import { Component, OnInit, Input, Output, EventEmitter, HostListener, forwardRef, ViewEncapsulation, Optional, ElementRef, Renderer, AfterContentInit } from '@angular/core';
-import { Form, Config, Item, PickerController, Picker, Ion, PickerColumn, PickerColumnOption } from 'ionic-angular';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { NumericData } from '../models/data';
-import { merge, isArray, isString, isPresent, isBlank, isTrueProperty } from 'ionic-angular/util/util';
-import { parseTemplate, numberValueRange, getValueFromFormat } from '../providers/util';
+import {
+    AfterContentInit,
+    Component,
+    ElementRef,
+    EventEmitter,
+    HostListener,
+    Input,
+    Optional,
+    Output,
+    Renderer,
+    ViewEncapsulation,
+    forwardRef,
+} from '@angular/core';
+import {
+    Config,
+    Form,
+    Ion,
+    Item,
+    Picker,
+    PickerColumn,
+    PickerColumnOption,
+    PickerController,
+} from 'ionic-angular';
+import {
+    ControlValueAccessor,
+    NG_VALUE_ACCESSOR,
+} from '@angular/forms';
+import {
+    getValueFromFormat,
+    numberValueRange,
+    parseTemplate,
+} from '../providers/util';
+import {
+    isArray,
+    isPresent,
+    isString,
+    isTrueProperty,
+    merge,
+} from 'ionic-angular/util/util';
+
 export const NUMERIC_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => Numeric),
-    multi: true
+    multi: true,
 };
+const DEFAULT_FORMAT: string = 'XX.XX';
+
 @Component({
     selector: 'ion-numeric',
     template:
@@ -22,25 +58,22 @@ export const NUMERIC_VALUE_ACCESSOR: any = {
     'class="item-cover">' +
     '</button>',
     host: {
-        '[class.numeric-disabled]': '_disabled'
+        '[class.numeric-disabled]': '_disabled',
     },
     providers: [NUMERIC_VALUE_ACCESSOR],
     encapsulation: ViewEncapsulation.None,
 })
 export class Numeric extends Ion implements AfterContentInit, ControlValueAccessor {
-    _disabled: any = false;
-    _labelId: string;
-    _text: string = '';
-    _fn: Function;
-    _isOpen: boolean = false;
-    _min: number;
-    _max: number;
-    _value: number = 0;
+    private _disabled: boolean = false;
+    private _labelId: string;
+    private _text: string = '';
+    private _fn: Function;
+    private _isOpen: boolean = false;
+    private _min: number;
+    private _max: number;
+    private _value: number = 0;
 
-    /**
-     * @private
-     */
-    id: string;
+    private id: string;
 
     /**
      * @input {string} The minimum number allowed. Value must be a number string
@@ -65,30 +98,29 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
      * the number picker's columns. See the `pickerFormat` input description for
      * more info. Defaults to `XX.XX`.
      */
-    @Input() displayFormat: string;
+    @Input() public displayFormat: string;
 
     /**
      * @input {string} The format of the numeric picker columns the user selects.
      *  Defaults to use `displayFormat`.
      */
-    @Input() pickerFormat: string;
+    @Input() public pickerFormat: string;
 
     /**
      * @input {string} The text to display on the picker's cancel button. Default: `Cancel`.
      */
-    @Input() cancelText: string = 'Cancel';
+    @Input() public cancelText: string = 'Cancel';
 
     /**
      * @input {string} The text to display on the picker's "Done" button. Default: `Done`.
      */
-    @Input() doneText: string = 'Done';
-
+    @Input() public doneText: string = 'Done';
 
     /**
      * @input {any} Any additional options that the picker interface can accept.
      * See the [Picker API docs](../../picker/Picker) for the picker options.
      */
-    @Input() pickerOptions: any = {};
+    @Input() public pickerOptions: any = {};
 
     /**
      * @input {string} The mode to apply to this component.
@@ -101,23 +133,22 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
     /**
      * @output {any} Any expression to evaluate when the numeric selection has changed.
      */
-    @Output() ionChange: EventEmitter<any> = new EventEmitter();
+    @Output() public ionChange: EventEmitter<any> = new EventEmitter();
 
     /**
      * @output {any} Any expression to evaluate when the numeric selection was cancelled.
      */
-    @Output() ionCancel: EventEmitter<any> = new EventEmitter();
+    @Output() public ionCancel: EventEmitter<any> = new EventEmitter();
     constructor(
         private _form: Form,
         config: Config,
         elementRef: ElementRef,
         renderer: Renderer,
         @Optional() private _item: Item,
-        @Optional() private _pickerCtrl: PickerController
+        @Optional() private _pickerCtrl: PickerController,
     ) {
         super(config, elementRef, renderer, 'datetime');
         _form.register(this);
-
 
         if (_item) {
             this.id = 'dt-' + _item.registerInput('datetime');
@@ -127,7 +158,7 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
     }
 
     @HostListener('click', ['$event'])
-    _click(ev: UIEvent) {
+    private _click(ev: UIEvent): void {
         if (ev.detail === 0) {
             // do not continue if the click event came from a form submit
             return;
@@ -138,16 +169,13 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
     }
 
     @HostListener('keyup.space')
-    _keyup() {
+    private _keyup(): void {
         if (!this._isOpen) {
             this.open();
         }
     }
 
-    /**
-  * @private
-  */
-    open() {
+    private open(): void {
         if (this._disabled) {
             return;
         }
@@ -155,16 +183,16 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
         console.debug('numeric, open picker');
 
         // the user may have assigned some options specifically for the alert
-        let pickerOptions = merge({}, this.pickerOptions);
+        let pickerOptions: any = merge({}, this.pickerOptions);
 
-        let picker = this._pickerCtrl.create(pickerOptions);
+        let picker: Picker = this._pickerCtrl.create(pickerOptions);
         pickerOptions.buttons = [
             {
                 text: this.cancelText,
                 role: 'cancel',
                 handler: () => {
                     this.ionCancel.emit(null);
-                }
+                },
             },
             {
                 text: this.doneText,
@@ -172,8 +200,8 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
                     console.debug('numeric, done', data);
                     this.onChange(data);
                     this.ionChange.emit(data);
-                }
-            }
+                },
+            },
         ];
 
         this.generate(picker);
@@ -191,19 +219,15 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
         });
     }
 
-
-    /**
-      * @private
-      */
-    generate(picker: Picker) {
+    private generate(picker: Picker): void {
         // if a picker format wasn't provided, then fallback
         // to use the display format
-        let template = this.pickerFormat || this.displayFormat || DEFAULT_FORMAT;
+        let template: string = this.pickerFormat || this.displayFormat || DEFAULT_FORMAT;
 
         if (isPresent(template)) {
 
-            let format = parseTemplate(template);
-            for (var index = 0; index < format.integers; index++) {
+            let format: { integers: number, decimals: number } = parseTemplate(template);
+            for (let index: number = 0; index < format.integers; index++) {
                 let values: any[];
                 values = numberValueRange(index, this._min, this._max);
                 let column: PickerColumn = {
@@ -213,13 +237,14 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
                             value: val,
                             text: val,
                         };
-                    })
+                    }),
                 };
 
                 if (column.options.length) {
                     // cool, we've loaded up the columns with options
                     // preselect the option for this column
-                    var selected = column.options.find(opt => opt.value === getValueFromFormat(this.getValue(), format.integers - index));
+                    let selected: PickerColumnOption =
+                        column.options.find(opt => opt.value === getValueFromFormat(this.getValue(), format.integers - index));
                     if (selected) {
                         // set the select index for this column's options
                         column.selectedIndex = column.options.indexOf(selected);
@@ -235,10 +260,10 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
                     options: [{
                         value: '.',
                         text: '.',
-                    }]
+                    }],
                 };
                 picker.addColumn(seperator);
-                for (var index = 0; index < format.decimals; index++) {
+                for (let index: number = 0; index < format.decimals; index++) {
                     let values: any[];
                     values = numberValueRange(index, this._min, this._max);
                     let column: PickerColumn = {
@@ -248,13 +273,14 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
                                 value: val,
                                 text: val,
                             };
-                        })
+                        }),
                     };
 
                     if (column.options.length) {
                         // cool, we've loaded up the columns with options
                         // preselect the option for this column
-                        var selected = column.options.find(opt => opt.value === getValueFromFormat(this.getValue(), format.decimals - index, true));
+                        let selected: PickerColumnOption =
+                            column.options.find(opt => opt.value === getValueFromFormat(this.getValue(), format.decimals - index, true));
                         if (selected) {
                             // set the select index for this column's options
                             column.selectedIndex = column.options.indexOf(selected);
@@ -270,20 +296,15 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
         }
         this.divyColumns(picker);
     }
-    /**
-       * @private
-       */
-    validate(picker: Picker) {
+
+    private validate(picker: Picker): void {
         let i: number;
-        let columns = picker.getColumns();
+        let columns: PickerColumn[] = picker.getColumns();
         picker.refresh();
     }
 
-    /**
-     * @private
-     */
-    divyColumns(picker: Picker) {
-        let pickerColumns = picker.getColumns();
+    private divyColumns(picker: Picker): void {
+        let pickerColumns: PickerColumn[] = picker.getColumns();
         let columns: number[] = [];
 
         pickerColumns.forEach((col, i) => {
@@ -294,17 +315,16 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
                     columns[i] = opt.text.length;
                 }
             });
-
         });
 
         if (columns.length === 2) {
-            var width = Math.max(columns[0], columns[1]);
+            let width: number = Math.max(columns[0], columns[1]);
             pickerColumns[0].align = 'right';
             pickerColumns[1].align = 'left';
             pickerColumns[0].optionsWidth = pickerColumns[1].optionsWidth = `${width * 17}px`;
 
         } else if (columns.length === 3) {
-            var width = Math.max(columns[0], columns[2]);
+            let width: number = Math.max(columns[0], columns[2]);
             pickerColumns[0].align = 'right';
             pickerColumns[1].columnWidth = `${columns[1] * 17}px`;
             pickerColumns[0].optionsWidth = pickerColumns[2].optionsWidth = `${width * 17}px`;
@@ -312,47 +332,35 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
         }
     }
 
-    /**
-     * @private
-     */
-    setValue(newData: any) {
+    private setValue(newData: any): void {
         this._value = this.convertColumnsToNumbers(newData);
     }
 
-    /**
-     * @private
-     */
-    getValue(): number {
+    private getValue(): number {
         return this._value || 0;
     }
 
-    /**
-     * @private
-     */
-    checkHasValue(inputValue: any) {
+    private checkHasValue(inputValue: any): void {
         if (this._item) {
             this._item.setElementClass('input-has-value', !!(inputValue && inputValue !== ''));
         }
     }
 
-    /**
-     * @private
-     */
-    updateText() {
+    private updateText(): void {
         // create the text of the formatted data
-        const template = this.displayFormat || this.pickerFormat || DEFAULT_FORMAT;
-        let text = this.getValue().toString();
-        let indices = [];
-        for (let i = 0; i < template.length; i++) {
+        const template: string = this.displayFormat || this.pickerFormat || DEFAULT_FORMAT;
+        let text: string = this.getValue().toString();
+        let indices: Array<any> = [];
+        for (let i: number = 0; i < template.length; i++) {
             if (template[i] === ',') indices.push(i);
         }
         // add zeros based on template
-        var seperator = template.indexOf('.');
-        let templateDecimals = template.split('.')[1];
+        let seperator: number = template.indexOf('.');
+        let templateDecimals: string = template.split('.')[1];
         if (seperator !== -1) {
             if (text.indexOf('.') === -1)
                 text += '.';
-            let textDecimals = text.split('.')[1];
+            let textDecimals: string = text.split('.')[1];
 
             while (templateDecimals.length !== textDecimals.length) {
                 textDecimals += '0';
@@ -363,7 +371,7 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
             text = text.split('.')[0];
         }
         if (indices.length > 0 && template.length === text.length + indices.length) {
-            for (let add = 0; add < indices.length; add++) {
+            for (let add: number = 0; add < indices.length; add++) {
                 text = text.slice(0, add + indices[add]) + ',' + text.slice(add + indices[add]);
             }
         }
@@ -374,39 +382,29 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
      * @input {boolean} Whether or not the numeric component is disabled. Default `false`.
      */
     @Input()
-    get disabled() {
+    get disabled(): any {
         return this._disabled;
     }
 
-    set disabled(val) {
+    set disabled(val: any) {
         this._disabled = isTrueProperty(val);
         this._item && this._item.setElementClass('item-datetime-disabled', this._disabled);
     }
 
-    /**
-     * @private
-     */
-    writeValue(val: any) {
+    public writeValue(val: any): void {
         console.debug('numeric, writeValue', val);
         this.setValue(val);
         this.updateText();
         this.checkHasValue(val);
     }
 
-    /**
-     * @private
-     */
-    ngAfterContentInit() {
+    public ngAfterContentInit(): void {
         this.updateText();
     }
 
-    /**
-     * @private
-     */
-    registerOnChange(fn: Function): void {
+    public registerOnChange(fn: Function): void {
         this._fn = fn;
         this.onChange = (val: any) => {
-            console.debug('numeric, onChange', val);
             this.setValue(val);
             this.updateText();
             this.checkHasValue(val);
@@ -417,15 +415,9 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
         };
     }
 
-    /**
-     * @private
-     */
-    registerOnTouched(fn: any) { this.onTouched = fn; }
+    public registerOnTouched(fn: any): void { this.onTouched = fn; }
 
-    /**
-     * @private
-     */
-    onChange(val: any) {
+    private onChange(val: any): void {
         // onChange used when there is not an formControlName
         console.debug('numeric, onChange w/out formControlName', val);
         this.setValue(val);
@@ -433,31 +425,27 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
         this.onTouched();
     }
 
-    /**
-     * @private
-     */
-    onTouched() { }
+    private onTouched(): void {
+        // do nothing
+    }
 
-    /**
-     * @private
-     */
-    ngOnDestroy() {
+    private ngOnDestroy(): void {
         this._form.deregister(this);
     }
 
-    convertColumnsToNumbers(columns: any): number {
+    private convertColumnsToNumbers(columns: any): number {
         if (columns === null) return 0;
-        let result = 0;
-        let keys = Object.keys(columns);
-        for (var index = 0; index < 10; index++) {
-            let element = keys.find(k => k.replace('int', '') === index.toString())
+        let result: number = 0;
+        let keys: Array<string> = Object.keys(columns);
+        for (let index: number = 0; index < 10; index++) {
+            let element: string = keys.find(k => k.replace('int', '') === index.toString());
             if (!element) break;
             result = result * Math.pow(10, index === 0 ? 0 : 1);
             result += columns[element].value;
         }
         if (keys.some(d => d === 'seperator')) {
-            for (var index = 0; index < 10; index++) {
-                let element = keys.find(k => k.replace('dec', '') === index.toString())
+            for (let index: number = 0; index < 10; index++) {
+                let element: string = keys.find(k => k.replace('dec', '') === index.toString());
                 if (!element) break;
                 result += columns[element].value / Math.pow(10, index + 1);
                 result = +result.toFixed(index + 1);
@@ -473,7 +461,7 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
  * an array of numbers, and clean up any user input
  */
 function convertToArrayOfNumbers(input: any, type: string): number[] {
-    var values: number[] = [];
+    let values: number[] = [];
 
     if (isString(input)) {
         // convert the string to an array of strings
@@ -505,7 +493,7 @@ function convertToArrayOfNumbers(input: any, type: string): number[] {
  */
 function convertToArrayOfStrings(input: any, type: string): string[] {
     if (isPresent(input)) {
-        var values: string[] = [];
+        let values: string[] = [];
 
         if (isString(input)) {
             // convert the string to an array of strings
@@ -530,7 +518,4 @@ function convertToArrayOfStrings(input: any, type: string): string[] {
         return values;
     }
 
-
 }
-
-const DEFAULT_FORMAT = 'XX.XX';

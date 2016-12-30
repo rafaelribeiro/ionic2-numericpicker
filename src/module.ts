@@ -1,20 +1,22 @@
-import { Observable } from 'rxjs';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { Numeric } from './components/component';
+import { Observable } from 'rxjs';
+
 @NgModule({
   declarations: [
-    Numeric
+    Numeric,
   ],
   providers: [],
   exports: [
-    Numeric
+    Numeric,
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
   ],
   schemas: [
-    CUSTOM_ELEMENTS_SCHEMA
-  ]
+    CUSTOM_ELEMENTS_SCHEMA,
+  ],
 })
 export class NumericModule { }

@@ -16,13 +16,13 @@ export function numberValueRange(pow: number, min: number, max: number): number[
     return ret;
 }
 
-export function getValueFromFormat(value: number, pow: number, decimal?: boolean) {
-    if (decimal === true) value = Math.round((value % 1) * Math.pow(10, pow));
+export function getValueFromFormat(value: number, pow: number, decimal?: boolean): number {
+    if (decimal === true) { value = Math.round((value % 1) * Math.pow(10, pow)); };
     return getNthDigit(value, pow);
 }
 
 
-function getNthDigit(val, n) {
-    var modVal = val % Math.pow(10, n);//Remove all digits larger than nth
-    return Math.floor(modVal / Math.pow(10, n - 1));//Remove all digits less than nth
+function getNthDigit(val: number, n: number): number {
+    var modVal = val % Math.pow(10, n);// remove all digits larger than nth
+    return Math.floor(modVal / Math.pow(10, n - 1));// remove all digits less than nth
 }
