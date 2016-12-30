@@ -1,14 +1,14 @@
 export function parseTemplate(template: string): { integers: number, decimals: number } {
     template = template.replace(',', '');
-    let parsed = template.split('.');
+    let parsed: Array<string> = template.split('.');
     return { integers: parsed[0].length, decimals: parsed[1] ? parsed[1].length : 0 };
 }
 
 export function numberValueRange(pow: number, min: number, max: number): number[] {
-    let ret = [];
+    let ret: Array<number> = [];
     min = getNthDigit(min, min.toString().length - pow);
     max = getNthDigit(max, min.toString().length - pow);
-    for (var index = 0; index < 10; index++) {
+    for (let index: number = 0; index < 10; index++) {
         if (min > index) continue;
         if (max < index) continue;
         ret.push(index);
@@ -21,8 +21,7 @@ export function getValueFromFormat(value: number, pow: number, decimal?: boolean
     return getNthDigit(value, pow);
 }
 
-
 function getNthDigit(val: number, n: number): number {
-    var modVal = val % Math.pow(10, n);// remove all digits larger than nth
-    return Math.floor(modVal / Math.pow(10, n - 1));// remove all digits less than nth
+    let modVal: number = val % Math.pow(10, n); // remove all digits larger than nth
+    return Math.floor(modVal / Math.pow(10, n - 1)); // remove all digits less than nth
 }
