@@ -35,7 +35,8 @@ import {
     isPresent,
     isString,
     isTrueProperty,
-    merge,
+    isObject,
+    isFunction,
 } from 'ionic-angular/util/util';
 
 export const NUMERIC_VALUE_ACCESSOR: any = {
@@ -183,7 +184,7 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
         console.debug('numeric, open picker');
 
         // the user may have assigned some options specifically for the alert
-        let pickerOptions: any = merge({}, this.pickerOptions);
+        let pickerOptions: any = this.merge({}, this.pickerOptions);
 
         let picker: Picker = this._pickerCtrl.create(pickerOptions);
         pickerOptions.buttons = [
@@ -218,7 +219,30 @@ export class Numeric extends Ion implements AfterContentInit, ControlValueAccess
             this._isOpen = false;
         });
     }
+    private merge(dst: any, ...args: any[]) {
+        return this._baseExtend(dst, [].slice.call(arguments, 1), true);
+    }
 
+    private _baseExtend(dst: any, objs: any, deep: boolean) {
+        for (let i = 0, ii = objs.length; i < ii; ++i) {
+            let obj = objs[i];
+            if (!obj || !isObject(obj) && !isFunction(obj)) continue;
+            let keys = Object.keys(obj);
+            for (let j = 0, jj = keys.length; j < jj; j++) {
+                let key = keys[j];
+                let src = obj[key];
+
+                if (deep && isObject(src)) {
+                    if (!isObject(dst[key])) dst[key] = isArray(src) ? [] : {};
+                    this._baseExtend(dst[key], [src], true);
+                } else {
+                    dst[key] = src;
+                }
+            }
+        }
+
+        return dst;
+    }
     private generate(picker: Picker): void {
         // if a picker format wasn't provided, then fallback
         // to use the display format

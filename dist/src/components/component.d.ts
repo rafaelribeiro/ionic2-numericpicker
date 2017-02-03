@@ -67,6 +67,8 @@ export declare class Numeric extends Ion implements AfterContentInit, ControlVal
     _click(ev: UIEvent): void;
     _keyup(): void;
     private open();
+    private merge(dst, ...args);
+    private _baseExtend(dst, objs, deep);
     private generate(picker);
     private validate(picker);
     private divyColumns(picker);

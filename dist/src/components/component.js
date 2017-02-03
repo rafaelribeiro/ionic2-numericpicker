@@ -16,7 +16,7 @@ import { Component, EventEmitter, HostListener, Input, Optional, Output, ViewEnc
 import { Ion, } from 'ionic-angular';
 import { NG_VALUE_ACCESSOR, } from '@angular/forms';
 import { getValueFromFormat, numberValueRange, parseTemplate, } from '../providers/util';
-import { isArray, isPresent, isString, isTrueProperty, merge, } from 'ionic-angular/util/util';
+import { isArray, isPresent, isString, isTrueProperty, isObject, isFunction, } from 'ionic-angular/util/util';
 export var NUMERIC_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(function () { return Numeric; }),
@@ -116,7 +116,7 @@ var Numeric = (function (_super) {
         }
         console.debug('numeric, open picker');
         // the user may have assigned some options specifically for the alert
-        var pickerOptions = merge({}, this.pickerOptions);
+        var pickerOptions = this.merge({}, this.pickerOptions);
         var picker = this._pickerCtrl.create(pickerOptions);
         pickerOptions.buttons = [
             {
@@ -145,6 +145,34 @@ var Numeric = (function (_super) {
         picker.onDidDismiss(function () {
             _this._isOpen = false;
         });
+    };
+    Numeric.prototype.merge = function (dst) {
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        return this._baseExtend(dst, [].slice.call(arguments, 1), true);
+    };
+    Numeric.prototype._baseExtend = function (dst, objs, deep) {
+        for (var i = 0, ii = objs.length; i < ii; ++i) {
+            var obj = objs[i];
+            if (!obj || !isObject(obj) && !isFunction(obj))
+                continue;
+            var keys = Object.keys(obj);
+            for (var j = 0, jj = keys.length; j < jj; j++) {
+                var key = keys[j];
+                var src = obj[key];
+                if (deep && isObject(src)) {
+                    if (!isObject(dst[key]))
+                        dst[key] = isArray(src) ? [] : {};
+                    this._baseExtend(dst[key], [src], true);
+                }
+                else {
+                    dst[key] = src;
+                }
+            }
+        }
+        return dst;
     };
     Numeric.prototype.generate = function (picker) {
         var _this = this;
