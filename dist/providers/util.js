@@ -24,7 +24,7 @@ export function getValueFromFormat(value, pow, decimal) {
     return getNthDigit(value, pow);
 }
 function getNthDigit(val, n) {
-    var modVal = val % Math.pow(10, n); // remove all digits larger than nth
-    return Math.floor(modVal / Math.pow(10, n - 1)); // remove all digits less than nth
+    var modVal = val % Math.pow(10, n);
+    return Math.floor(modVal / Math.pow(10, n - 1));
 }
 //# sourceMappingURL=util.js.map

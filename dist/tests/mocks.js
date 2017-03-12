@@ -1,4 +1,3 @@
-// IONIC:
 var ConfigMock = (function () {
     function ConfigMock() {
     }

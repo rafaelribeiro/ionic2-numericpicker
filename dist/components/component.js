@@ -1,19 +1,27 @@
-var __extends = (this && this.__extends) || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-};
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-import { Component, EventEmitter, HostListener, Input, Optional, Output, ViewEncapsulation, forwardRef, } from '@angular/core';
-import { Ion, } from 'ionic-angular';
+import { Component, ElementRef, EventEmitter, HostListener, Input, Optional, Output, Renderer, ViewEncapsulation, forwardRef, } from '@angular/core';
+import { Config, Form, Ion, Item, PickerController, } from 'ionic-angular';
 import { NG_VALUE_ACCESSOR, } from '@angular/forms';
 import { getValueFromFormat, numberValueRange, parseTemplate, } from '../providers/util';
 import { isArray, isPresent, isString, isTrueProperty, isObject, isFunction, } from 'ionic-angular/util/util';
@@ -34,26 +42,10 @@ var Numeric = (function (_super) {
         _this._text = '';
         _this._isOpen = false;
         _this._value = 0;
-        /**
-         * @input {string} The text to display on the picker's cancel button. Default: `Cancel`.
-         */
         _this.cancelText = 'Cancel';
-        /**
-         * @input {string} The text to display on the picker's "Done" button. Default: `Done`.
-         */
         _this.doneText = 'Done';
-        /**
-         * @input {any} Any additional options that the picker interface can accept.
-         * See the [Picker API docs](../../picker/Picker) for the picker options.
-         */
         _this.pickerOptions = {};
-        /**
-         * @output {any} Any expression to evaluate when the numeric selection has changed.
-         */
         _this.ionChange = new EventEmitter();
-        /**
-         * @output {any} Any expression to evaluate when the numeric selection was cancelled.
-         */
         _this.ionCancel = new EventEmitter();
         _form.register(_this);
         if (_item) {
@@ -64,10 +56,6 @@ var Numeric = (function (_super) {
         return _this;
     }
     Object.defineProperty(Numeric.prototype, "min", {
-        /**
-         * @input {string} The minimum number allowed. Value must be a number string
-         * following the
-         */
         set: function (val) {
             this._min = +val;
         },
@@ -75,10 +63,6 @@ var Numeric = (function (_super) {
         configurable: true
     });
     Object.defineProperty(Numeric.prototype, "max", {
-        /**
-         * @input {string} The maximum number allowed. Value must be a number string
-         * following the
-         */
         set: function (val) {
             this._max = +val;
         },
@@ -86,9 +70,6 @@ var Numeric = (function (_super) {
         configurable: true
     });
     Object.defineProperty(Numeric.prototype, "mode", {
-        /**
-         * @input {string} The mode to apply to this component.
-         */
         set: function (val) {
             this._setMode(val);
         },
@@ -97,7 +78,6 @@ var Numeric = (function (_super) {
     });
     Numeric.prototype._click = function (ev) {
         if (ev.detail === 0) {
-            // do not continue if the click event came from a form submit
             return;
         }
         ev.preventDefault();
@@ -115,7 +95,6 @@ var Numeric = (function (_super) {
             return;
         }
         console.debug('numeric, open picker');
-        // the user may have assigned some options specifically for the alert
         var pickerOptions = this.merge({}, this.pickerOptions);
         var picker = this._pickerCtrl.create(pickerOptions);
         pickerOptions.buttons = [
@@ -176,8 +155,6 @@ var Numeric = (function (_super) {
     };
     Numeric.prototype.generate = function (picker) {
         var _this = this;
-        // if a picker format wasn't provided, then fallback
-        // to use the display format
         var template = this.pickerFormat || this.displayFormat || DEFAULT_FORMAT;
         if (isPresent(template)) {
             var format_1 = parseTemplate(template);
@@ -194,14 +171,10 @@ var Numeric = (function (_super) {
                     }),
                 };
                 if (column.options.length) {
-                    // cool, we've loaded up the columns with options
-                    // preselect the option for this column
                     var selected = column.options.find(function (opt) { return opt.value === getValueFromFormat(_this.getValue(), format_1.integers - index); });
                     if (selected) {
-                        // set the select index for this column's options
                         column.selectedIndex = column.options.indexOf(selected);
                     }
-                    // add our newly created column to the picker
                     picker.addColumn(column);
                 }
             };
@@ -231,14 +204,10 @@ var Numeric = (function (_super) {
                         }),
                     };
                     if (column.options.length) {
-                        // cool, we've loaded up the columns with options
-                        // preselect the option for this column
                         var selected = column.options.find(function (opt) { return opt.value === getValueFromFormat(_this.getValue(), format_1.decimals - index, true); });
                         if (selected) {
-                            // set the select index for this column's options
                             column.selectedIndex = column.options.indexOf(selected);
                         }
-                        // add our newly created column to the picker
                         picker.addColumn(column);
                     }
                 };
@@ -292,7 +261,6 @@ var Numeric = (function (_super) {
         }
     };
     Numeric.prototype.updateText = function () {
-        // create the text of the formatted data
         var template = this.displayFormat || this.pickerFormat || DEFAULT_FORMAT;
         var text = this.getValue().toString();
         var indices = [];
@@ -300,7 +268,6 @@ var Numeric = (function (_super) {
             if (template[i] === ',')
                 indices.push(i);
         }
-        // add zeros based on template
         var seperator = template.indexOf('.');
         var templateDecimals = template.split('.')[1];
         if (seperator !== -1) {
@@ -323,9 +290,6 @@ var Numeric = (function (_super) {
         this._text = text;
     };
     Object.defineProperty(Numeric.prototype, "disabled", {
-        /**
-         * @input {boolean} Whether or not the numeric component is disabled. Default `false`.
-         */
         get: function () {
             return this._disabled;
         },
@@ -358,14 +322,12 @@ var Numeric = (function (_super) {
     };
     Numeric.prototype.registerOnTouched = function (fn) { this.onTouched = fn; };
     Numeric.prototype.onChange = function (val) {
-        // onChange used when there is not an formControlName
         console.debug('numeric, onChange w/out formControlName', val);
         this.setValue(val);
         this.updateText();
         this.onTouched();
     };
     Numeric.prototype.onTouched = function () {
-        // do nothing
     };
     Numeric.prototype.ngOnDestroy = function () {
         this._form.deregister(this);
@@ -406,43 +368,64 @@ var Numeric = (function (_super) {
     return Numeric;
 }(Ion));
 __decorate([
-    Input()
+    Input(),
+    __metadata("design:type", String),
+    __metadata("design:paramtypes", [String])
 ], Numeric.prototype, "min", null);
 __decorate([
-    Input()
+    Input(),
+    __metadata("design:type", String),
+    __metadata("design:paramtypes", [String])
 ], Numeric.prototype, "max", null);
 __decorate([
-    Input()
+    Input(),
+    __metadata("design:type", String)
 ], Numeric.prototype, "displayFormat", void 0);
 __decorate([
-    Input()
+    Input(),
+    __metadata("design:type", String)
 ], Numeric.prototype, "pickerFormat", void 0);
 __decorate([
-    Input()
+    Input(),
+    __metadata("design:type", String)
 ], Numeric.prototype, "cancelText", void 0);
 __decorate([
-    Input()
+    Input(),
+    __metadata("design:type", String)
 ], Numeric.prototype, "doneText", void 0);
 __decorate([
-    Input()
+    Input(),
+    __metadata("design:type", Object)
 ], Numeric.prototype, "pickerOptions", void 0);
 __decorate([
-    Input()
+    Input(),
+    __metadata("design:type", String),
+    __metadata("design:paramtypes", [String])
 ], Numeric.prototype, "mode", null);
 __decorate([
-    Output()
+    Output(),
+    __metadata("design:type", EventEmitter)
 ], Numeric.prototype, "ionChange", void 0);
 __decorate([
-    Output()
+    Output(),
+    __metadata("design:type", EventEmitter)
 ], Numeric.prototype, "ionCancel", void 0);
 __decorate([
-    HostListener('click', ['$event'])
+    HostListener('click', ['$event']),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [UIEvent]),
+    __metadata("design:returntype", void 0)
 ], Numeric.prototype, "_click", null);
 __decorate([
-    HostListener('keyup.space')
+    HostListener('keyup.space'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
 ], Numeric.prototype, "_keyup", null);
 __decorate([
-    Input()
+    Input(),
+    __metadata("design:type", Object),
+    __metadata("design:paramtypes", [Object])
 ], Numeric.prototype, "disabled", null);
 Numeric = __decorate([
     Component({
@@ -463,23 +446,21 @@ Numeric = __decorate([
         encapsulation: ViewEncapsulation.None,
     }),
     __param(4, Optional()),
-    __param(5, Optional())
+    __param(5, Optional()),
+    __metadata("design:paramtypes", [Form,
+        Config,
+        ElementRef,
+        Renderer,
+        Item,
+        PickerController])
 ], Numeric);
 export { Numeric };
-/**
- * @private
- * Use to convert a string of comma separated numbers or
- * an array of numbers, and clean up any user input
- */
 function convertToArrayOfNumbers(input, type) {
     var values = [];
     if (isString(input)) {
-        // convert the string to an array of strings
-        // auto remove any whitespace and [] characters
         input = input.replace(/\[|\]|\s/g, '').split(',');
     }
     if (isArray(input)) {
-        // ensure each value is an actual number in the returned array
         input.forEach(function (num) {
             num = parseInt(num, 10);
             if (!isNaN(num)) {
@@ -492,21 +473,13 @@ function convertToArrayOfNumbers(input, type) {
     }
     return values;
 }
-/**
- * @private
- * Use to convert a string of comma separated strings or
- * an array of strings, and clean up any user input
- */
 function convertToArrayOfStrings(input, type) {
     if (isPresent(input)) {
         var values_1 = [];
         if (isString(input)) {
-            // convert the string to an array of strings
-            // auto remove any [] characters
             input = input.replace(/\[|\]/g, '').split(',');
         }
         if (isArray(input)) {
-            // trim up each string value
             input.forEach(function (val) {
                 val = val.trim();
                 if (val) {

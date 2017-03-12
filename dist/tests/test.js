@@ -9,7 +9,6 @@ import { App, Config, Form, IonicModule, Keyboard, MenuController, NavController
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConfigMock } from './mocks';
 import { TestBed } from '@angular/core/testing';
-// Prevent Karma from running prematurely.
 __karma__.loaded = function () { };
 Promise.all([
     System.import('@angular/core/testing'),
@@ -49,7 +48,6 @@ var TestUtils = (function () {
             ],
         });
     };
-    // http://stackoverflow.com/questions/2705583/how-to-simulate-a-click-with-javascript
     TestUtils.eventFire = function (el, etype) {
         if (el.fireEvent) {
             el.fireEvent('on' + etype);

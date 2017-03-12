@@ -1,26 +1,33 @@
 {
   "compilerOptions": {
-    "module": "es2015",
-    "target": "es5",
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "declaration": true,
-    "noImplicitAny": false,
+    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "lib": ["dom", "es2015"],
-    "outDir": "./dist",
-    "types": [
-      "node",
-      "jasmine"
-    ]
+    "target": "es5",
+    "module": "es2015",
+    "moduleResolution": "node",
+    "removeComments": true,
+    "lib": [
+      "es2015",
+      "dom"
+    ],
+    "sourceMap": true,
+    "outDir": "dist",
+    "declarationDir": "dist",
+    "declaration": true
   },
+  "compileOnSave": true,
+  "include": [
+    "src/**/*"
+  ],
   "exclude": [
+    "demo",
+    "index.d.ts",
     "node_modules",
-    "dist",
-    "scripts",
-    "demo"
+    "dist"
   ],
   "angularCompilerOptions": {
-    "genDir": "aot"
+    "genDir": "dist/",
+    "strictMetadataEmit": true,
+    "skipTemplateCodegen": true
   }
 }
