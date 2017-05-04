@@ -8,18 +8,6 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-var __param = (this && this.__param) || function (paramIndex, decorator) {
-    return function (target, key) { decorator(target, key, paramIndex); }
-};
 import { Component, ElementRef, EventEmitter, HostListener, Input, Optional, Output, Renderer, ViewEncapsulation, forwardRef, } from '@angular/core';
 import { Config, Form, Ion, Item, PickerController, } from 'ionic-angular';
 import { NG_VALUE_ACCESSOR, } from '@angular/forms';
@@ -367,94 +355,49 @@ var Numeric = (function (_super) {
     };
     return Numeric;
 }(Ion));
-__decorate([
-    Input(),
-    __metadata("design:type", String),
-    __metadata("design:paramtypes", [String])
-], Numeric.prototype, "min", null);
-__decorate([
-    Input(),
-    __metadata("design:type", String),
-    __metadata("design:paramtypes", [String])
-], Numeric.prototype, "max", null);
-__decorate([
-    Input(),
-    __metadata("design:type", String)
-], Numeric.prototype, "displayFormat", void 0);
-__decorate([
-    Input(),
-    __metadata("design:type", String)
-], Numeric.prototype, "pickerFormat", void 0);
-__decorate([
-    Input(),
-    __metadata("design:type", String)
-], Numeric.prototype, "cancelText", void 0);
-__decorate([
-    Input(),
-    __metadata("design:type", String)
-], Numeric.prototype, "doneText", void 0);
-__decorate([
-    Input(),
-    __metadata("design:type", Object)
-], Numeric.prototype, "pickerOptions", void 0);
-__decorate([
-    Input(),
-    __metadata("design:type", String),
-    __metadata("design:paramtypes", [String])
-], Numeric.prototype, "mode", null);
-__decorate([
-    Output(),
-    __metadata("design:type", EventEmitter)
-], Numeric.prototype, "ionChange", void 0);
-__decorate([
-    Output(),
-    __metadata("design:type", EventEmitter)
-], Numeric.prototype, "ionCancel", void 0);
-__decorate([
-    HostListener('click', ['$event']),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [UIEvent]),
-    __metadata("design:returntype", void 0)
-], Numeric.prototype, "_click", null);
-__decorate([
-    HostListener('keyup.space'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", void 0)
-], Numeric.prototype, "_keyup", null);
-__decorate([
-    Input(),
-    __metadata("design:type", Object),
-    __metadata("design:paramtypes", [Object])
-], Numeric.prototype, "disabled", null);
-Numeric = __decorate([
-    Component({
-        selector: 'ion-numeric',
-        template: '<div class="datetime-text">{{_text}}</div>' +
-            '<button aria-haspopup="true" ' +
-            'type="button" ' +
-            '[id]="id" ' +
-            'ion-button="item-cover" ' +
-            '[attr.aria-labelledby]="_labelId" ' +
-            '[attr.aria-disabled]="_disabled" ' +
-            'class="item-cover">' +
-            '</button>',
-        host: {
-            '[class.numeric-disabled]': '_disabled',
-        },
-        providers: [NUMERIC_VALUE_ACCESSOR],
-        encapsulation: ViewEncapsulation.None,
-    }),
-    __param(4, Optional()),
-    __param(5, Optional()),
-    __metadata("design:paramtypes", [Form,
-        Config,
-        ElementRef,
-        Renderer,
-        Item,
-        PickerController])
-], Numeric);
 export { Numeric };
+Numeric.decorators = [
+    { type: Component, args: [{
+                selector: 'ion-numeric',
+                template: '<div class="datetime-text">{{_text}}</div>' +
+                    '<button aria-haspopup="true" ' +
+                    'type="button" ' +
+                    '[id]="id" ' +
+                    'ion-button="item-cover" ' +
+                    '[attr.aria-labelledby]="_labelId" ' +
+                    '[attr.aria-disabled]="_disabled" ' +
+                    'class="item-cover">' +
+                    '</button>',
+                host: {
+                    '[class.numeric-disabled]': '_disabled',
+                },
+                providers: [NUMERIC_VALUE_ACCESSOR],
+                encapsulation: ViewEncapsulation.None,
+            },] },
+];
+Numeric.ctorParameters = function () { return [
+    { type: Form, },
+    { type: Config, },
+    { type: ElementRef, },
+    { type: Renderer, },
+    { type: Item, decorators: [{ type: Optional },] },
+    { type: PickerController, decorators: [{ type: Optional },] },
+]; };
+Numeric.propDecorators = {
+    'min': [{ type: Input },],
+    'max': [{ type: Input },],
+    'displayFormat': [{ type: Input },],
+    'pickerFormat': [{ type: Input },],
+    'cancelText': [{ type: Input },],
+    'doneText': [{ type: Input },],
+    'pickerOptions': [{ type: Input },],
+    'mode': [{ type: Input },],
+    'ionChange': [{ type: Output },],
+    'ionCancel': [{ type: Output },],
+    '_click': [{ type: HostListener, args: ['click', ['$event'],] },],
+    '_keyup': [{ type: HostListener, args: ['keyup.space',] },],
+    'disabled': [{ type: Input },],
+};
 function convertToArrayOfNumbers(input, type) {
     var values = [];
     if (isString(input)) {
