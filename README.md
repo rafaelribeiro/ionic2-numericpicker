@@ -4,7 +4,7 @@
 To Install
 
 ```
-    npm i ionic2-numericpicker --save
+    npm i ionic3-numericpicker --save
 ```
 
 To import
