@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 
-import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { Numeric } from './components/component';
 import { Observable } from 'rxjs';
 
@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
     Numeric,
   ],
   imports: [
-    BrowserModule,
+    CommonModule,
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA,
